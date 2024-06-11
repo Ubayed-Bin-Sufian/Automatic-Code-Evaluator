@@ -83,10 +83,10 @@ const Landing = () => {
   const handleCompile = () => {
     setProcessing(true);
     const formData = {
-      language_id: 52,
+      language_id: language.id,
       // encode source code in base64
-      source_code: "I2luY2x1ZGUgPHN0ZGlvLmg+CgppbnQgbWFpbih2b2lkKSB7CiAgY2hhciBuYW1lWzEwXTsKICBzY2FuZigiJXMiLCBuYW1lKTsKICBwcmludGYoImhlbGxvLCAlc1xuIiwgbmFtZSk7CiAgcmV0dXJuIDA7Cn0=",
-      stdin: "SnVkZ2Uw",
+      source_code: btoa(code),
+      stdin: btoa(customInput),
     };
     const options = {
       method: "POST",
