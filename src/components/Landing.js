@@ -214,7 +214,7 @@ const Landing = () => {
         pauseOnHover
       />
 
-      <a
+      {/* <a
         href="https://github.com/manuarora700/react-code-editor"
         title="Fork me on GitHub"
         class="github-corner"
@@ -241,7 +241,7 @@ const Landing = () => {
             class="octo-body"
           ></path>
         </svg>
-      </a>
+      </a> */}
 
       <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
       <div className="flex flex-row">
