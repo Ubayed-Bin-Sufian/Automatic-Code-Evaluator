@@ -62,39 +62,6 @@ const Landing = () => {
     setLanguage(sl);
   };
 
-  const QuestionBox = ({ questions }) => {
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-  
-    const handleNextQuestion = () => {
-      setCurrentQuestion(currentQuestion + 1);
-    };
-  
-    const handlePreviousQuestion = () => {
-      setCurrentQuestion(currentQuestion - 1);
-    };
-  
-    return (
-      <div className="question-box">
-        <h2>Question Box</h2>
-        {questions.length > 0 ? (
-          <div>
-            <p>{questions[currentQuestion]}</p>
-            <div>
-              <button onClick={handlePreviousQuestion} disabled={currentQuestion === 0}>
-                Previous
-              </button>
-              <button onClick={handleNextQuestion} disabled={currentQuestion === questions.length - 1}>
-                Next
-              </button>
-            </div>
-          </div>
-        ) : (
-          <p>No questions available</p>
-        )}
-      </div>
-    );
-  }
-
   useEffect(() => {
     if (enterPress && ctrlPress) {
       console.log("enterPress", enterPress);
