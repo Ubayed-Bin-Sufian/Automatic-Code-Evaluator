@@ -223,14 +223,14 @@ const Landing = () => {
         </div>
         <div className="px-4 py-2">
           <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-        </div>
+        </div>        
       </div>
-      <div className="flex flex-row space-x-4 items-start px-4 py-4">
 
-        <div className="flex flex-row space-x-4 items-start px-4 py-4">
+      <div className="px-4 py-4">
           <QuestionBox questionDetails={questionDetails}/>
-        </div>
+      </div>
 
+      <div className="flex flex-row space-x-4 items-start px-4 py-4">        
         <div className="flex flex-col w-full h-full justify-start items-end">
           <CodeEditorWindow
             code={code}
