@@ -2,23 +2,32 @@ import React from "react";
 import { classnames } from "../utils/general";
 
 const QuestionBox = ({ question, setQuestion }) => {
+  const questions = [
+    "Question 1",
+    "Question 2",
+    "Question 3",
+    "Question 4",
+    "Question 5",
+  ];
+
   return (
     <div>
-        <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
-          Question
-        </h1>
+      <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
+        Question
+      </h1>
 
-        <div
-            contentEditable
-            onInput={(e) => setQuestion(e.target.textContent)}
-            placeholder="Question is displayed here"
-            className={classnames(
-              "focus:outline-none w-200 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white mt-2"
-            )}
-            style={{ minHeight: "2em", maxHeight: "4em", overflowY: "auto" }}
-        >
-            {question || "Question is displayed here"}
-        </div>
+      <select
+        onChange={(e) => setQuestion(e.target.value)}
+        className={classnames(
+          "focus:outline-none w-full border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white mt-2"
+        )}
+      >
+        {questions.map((q, index) => (
+          <option key={index} value={q}>
+            {q}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
