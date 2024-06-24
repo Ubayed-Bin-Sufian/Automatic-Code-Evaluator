@@ -17,6 +17,13 @@ import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
 import QuestionBox from "./QuestionBox";
 
+import { Routes, Route } from "react-router-dom";
+import Question1 from "./Question1";
+import Question2 from "./Question2";
+import Question3 from "./Question3";
+import Question4 from "./Question4";
+import Question5 from "./Question5";
+
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
 */
@@ -54,7 +61,7 @@ const Landing = () => {
   const [processing, setProcessing] = useState(null);
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
-  const [questionDetails, setQuestionDetails] = useState("");  // Variable to store question
+  const [question, setQuestion] = useState("");  // Variable to store question
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -227,7 +234,15 @@ const Landing = () => {
       </div>
 
       <div className="px-4 py-4">
-          <QuestionBox questionDetails={questionDetails}/>
+          {/* <QuestionBox question={question} setQuestion={setQuestion} />           */}          
+          <Routes>
+            <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
+            <Route path="/Question 1" element={<Question1 />} />
+            <Route path="/Question 2" element={<Question2 />} />
+            <Route path="/Question 3" element={<Question3 />} />
+            <Route path="/Question 4" element={<Question4 />} />
+            <Route path="/Question 5" element={<Question5 />} />
+          </Routes>          
       </div>
 
       <div className="flex flex-row space-x-4 items-start px-4 py-4">        
