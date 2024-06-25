@@ -1,10 +1,22 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import QuestionBox from "./QuestionBox";
 
 const Question1 = () => {
-  const [question, setQuestion] = useState(
-    "Question-1: What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?" 
-  )
+  const [question, setQuestion] = useState("");
+
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      try {
+        const response = await fetch("/questions.json");
+        const data = await response.json();
+        setQuestion(data["Question-1"]);
+      } catch (error) {
+        console.error("Error fetching question:", error);
+      }
+    };
+
+    fetchQuestion();
+  }, []);    
 
   return (
       <>
