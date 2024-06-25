@@ -237,11 +237,11 @@ const Landing = () => {
           {/* <QuestionBox question={question} setQuestion={setQuestion} />           */}          
           <Routes>
             <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
-            <Route path="/Question 1" element={<Question1 />} />
-            <Route path="/Question 2" element={<Question2 />} />
-            <Route path="/Question 3" element={<Question3 />} />
-            <Route path="/Question 4" element={<Question4 />} />
-            <Route path="/Question 5" element={<Question5 />} />
+            <Route path="/Question1" element={<Question1 />} />
+            <Route path="/Question2" element={<Question2 />} />
+            <Route path="/Question3" element={<Question3 />} />
+            <Route path="/Question4" element={<Question4 />} />
+            <Route path="/Question5" element={<Question5 />} />
           </Routes>          
       </div>
 
