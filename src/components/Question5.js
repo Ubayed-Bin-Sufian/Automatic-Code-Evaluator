@@ -6,8 +6,7 @@ const Question5 = () => {
   return (
       <>
         <div>
-            <h1>Question - 5</h1>
-            <p>Question 5 is displayed here</p>
+            <p>Question - 5: What is a scatter plot and when would you use it?</p>
             <button onClick={() => navigate(-1)}>Back</button>
         </div>        
       </>
