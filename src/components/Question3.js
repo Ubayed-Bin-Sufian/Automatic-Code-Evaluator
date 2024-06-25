@@ -6,8 +6,7 @@ const Question3 = () => {
   return (
       <>
         <div>
-            <h1>Question - 3</h1>
-            <p>Question 3 is displayed here</p>
+            <p>Question - 3: How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?</p>
             <button onClick={() => navigate(-1)}>Back</button>
         </div>        
       </>
