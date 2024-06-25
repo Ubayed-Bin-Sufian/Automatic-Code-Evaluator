@@ -233,8 +233,7 @@ const Landing = () => {
         </div>        
       </div>
 
-      <div className="px-4 py-4">
-          {/* <QuestionBox question={question} setQuestion={setQuestion} />           */}          
+      <div className="px-4 py-4">         
           <Routes>
             <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
             <Route path="/Question1" element={<Question1 />} />
