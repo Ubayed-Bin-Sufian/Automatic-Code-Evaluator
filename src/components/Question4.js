@@ -6,8 +6,7 @@ const Question4 = () => {
   return (
       <>
         <div>
-            <h1>Question - 4</h1>
-            <p>Question 4 is displayed here</p>
+            <p>Question - 4: What is a histogram and how is it used?</p>
             <button onClick={() => navigate(-1)}>Back</button>
         </div>        
       </>
