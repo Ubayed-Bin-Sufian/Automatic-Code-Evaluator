@@ -5,8 +5,8 @@ const Question1 = () => {
 
   return (
       <>
-        <QuestionBox question={questions[0].Question1} />       
-      </>
+        <QuestionBox question={questions[0].Question1} />             
+      </>      
   );
 };
 
