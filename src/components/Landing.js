@@ -235,12 +235,12 @@ const Landing = () => {
       <div className="px-4 py-4">         
           <Routes>
             <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
-            <Route path="/Question1" element={<Question1 />} />
-            <Route path="/Question2" element={<Question2 />} />
-            <Route path="/Question3" element={<Question3 />} />
-            <Route path="/Question4" element={<Question4 />} />
-            <Route path="/Question5" element={<Question5 />} />
-            <Route path="*" element="PAGE NOT FOUND" />
+            <Route path="question1" element={<Question1 />} />                     
+            <Route path="question2" element={<Question2 />} />
+            <Route path="question3" element={<Question3 />} />
+            <Route path="question4" element={<Question4 />} />
+            <Route path="question5" element={<Question5 />} />
+            <Route path="*" element= {"PAGE NOT FOUND"} />
           </Routes>          
       </div>
 
@@ -274,7 +274,7 @@ const Landing = () => {
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>
-      </div>
+      </div>      
     </>
   );
 };
