@@ -240,6 +240,7 @@ const Landing = () => {
             <Route path="/Question3" element={<Question3 />} />
             <Route path="/Question4" element={<Question4 />} />
             <Route path="/Question5" element={<Question5 />} />
+            <Route path="*" element="PAGE NOT FOUND" />
           </Routes>          
       </div>
 
