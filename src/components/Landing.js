@@ -22,6 +22,7 @@ import Question2 from "./Question2";
 import Question3 from "./Question3";
 import Question4 from "./Question4";
 import Question5 from "./Question5";
+import Questions from "./Questions";
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -235,6 +236,7 @@ const Landing = () => {
       <div className="px-4 py-4">         
           <Routes>
             <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
+            <Route path="question/:questionID" element={<Questions />} />
             <Route path="question1" element={<Question1 />} />                     
             <Route path="question2" element={<Question2 />} />
             <Route path="question3" element={<Question3 />} />
