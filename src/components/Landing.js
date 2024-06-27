@@ -17,11 +17,11 @@ import LanguagesDropdown from "./LanguagesDropdown";
 import QuestionBox from "./QuestionBox";
 
 import { Routes, Route } from "react-router-dom";
-import Question1 from "./Question1";
-import Question2 from "./Question2";
-import Question3 from "./Question3";
-import Question4 from "./Question4";
-import Question5 from "./Question5";
+// import Question1 from "./Question1";
+// import Question2 from "./Question2";
+// import Question3 from "./Question3";
+// import Question4 from "./Question4";
+// import Question5 from "./Question5";
 import Questions from "./Questions";
 
 const javascriptDefault = `/**
@@ -237,11 +237,11 @@ const Landing = () => {
           <Routes>
             <Route path="/" element={<QuestionBox question={question} setQuestion={setQuestion} />} />
             <Route path="question/:questionID" element={<Questions />} />
-            <Route path="question1" element={<Question1 />} />                     
+            {/* <Route path="question1" element={<Question1 />} />                     
             <Route path="question2" element={<Question2 />} />
             <Route path="question3" element={<Question3 />} />
             <Route path="question4" element={<Question4 />} />
-            <Route path="question5" element={<Question5 />} />
+            <Route path="question5" element={<Question5 />} /> */}
             <Route path="*" element= {"PAGE NOT FOUND"} />
           </Routes>          
       </div>
