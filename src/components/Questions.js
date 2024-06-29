@@ -12,7 +12,7 @@ const Questions = () => {
   const questionIndex = parseInt(questionID) - 1; // Convert questionID (which is a string) to an index (an integer)
   const questionKey = `Question${questionID}`;  // Uses template literals to construct a string
   const question = questions[questionIndex][questionKey];
-  
+  console.log(question)
 
   return (
       <div>
