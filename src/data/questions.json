@@ -1,9 +1,9 @@
 [        
     {
-        "Question1": "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?"
+        "Question1": "Write a function to find median for any given 5 numbers."
     },
     {
-        "Question2": "What is the median of the numbers 1, 3, 3, 6, 7, 8, 9?"
+        "Question2": "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?"
     },
     {
         "Question3": "How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?"
