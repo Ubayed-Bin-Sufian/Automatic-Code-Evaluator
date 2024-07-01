@@ -16,7 +16,6 @@ const Questions = () => {
 
   return (
       <div>
-        {/* <QuestionBox question={questions[0].Question1} /> */}
         <QuestionBox question={question} />       
       </div>      
   );
