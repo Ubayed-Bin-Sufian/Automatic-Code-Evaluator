@@ -1,6 +1,6 @@
 [        
     {
-        "Question1": "Write a function to find median for any given 5 numbers."
+        "Question1": "Write a function to find median for any given 5 numbers."        
     },
     {
         "Question2": "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?"
@@ -13,5 +13,20 @@
     },
     {
         "Question5": "What is a scatter plot and when would you use it?"
+    },
+    {
+        "Question6": "What does the term 'correlation' mean in data science?"
+    },
+    {
+        "Question7": "What is the difference between supervised and unsupervised learning?"
+    },
+    {
+        "Question8": "How would you generate a list of 10 random numbers between 1 and 100?"
+    },
+    {
+        "Question9": "What is a DataFrame in pandas?"
+    },
+    {
+        "Question10": "How do you find the sum of all values in a list?"
     }       
 ]
