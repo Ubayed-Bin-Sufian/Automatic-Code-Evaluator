@@ -2,51 +2,61 @@
     {
         "Question1" : "What is the median of the numbers 1, 3, 3, 6, 7, 8, 9?",
         "Hint" : "Arrange the numbers in order and find the middle one.",
-        "SampleCode" : "numbers = [1, 3, 3, 6, 7, 8, 9] \nnumbers.sort() \nmedian = numbers[len(numbers) // 2] \nprint(median)"
+        "SampleCode" : "numbers = [1, 3, 3, 6, 7, 8, 9] \nnumbers.sort() \nmedian = numbers[len(numbers) // 2] \nprint(median)",
+        "Answer" : "6"
     },
     {
         "Question2" : "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?",
         "Hint" : "Add up all the numbers and divide by the number of numbers.",
-        "SampleCode" : "numbers = [4, 8, 15, 16, 23, 42] \nmean = sum(numbers) / len(numbers) \nprint(mean)"
+        "SampleCode" : "numbers = [4, 8, 15, 16, 23, 42] \nmean = sum(numbers) / len(numbers) \nprint(mean)",
+        "Answer" : "18.0"
     },
     {
         "Question3" : "How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?",
         "Hint" : "The mode is the number that appears most frequently.",
-        "SampleCode" : "from collections import Counter \nnumbers = [1, 2, 2, 3, 4, 4, 4, 5] \nmode = Counter(numbers).most_common(1)[0][0] \nprint(mode)"
+        "SampleCode" : "from collections import Counter \nnumbers = [1, 2, 2, 3, 4, 4, 4, 5] \nmode = Counter(numbers).most_common(1)[0][0] \nprint(mode)",
+        "Answer" : "4"
     },
     {
         "Question4" : " What is a histogram and how is it used?",
         "Hint" : "A histogram is a graphical representation of data using bars of different heights.",
-        "SampleCode" : "import matplotlib.pyplot as plt \ndata = [1, 2, 2, 3, 4, 4, 4, 5] \nplt.hist(data, bins=5) \nplt.xlabel('Value') \nplt.ylabel('Frequency') \nplt.title('Histogram') \nplt.show()"
+        "SampleCode" : "import matplotlib.pyplot as plt \ndata = [1, 2, 2, 3, 4, 4, 4, 5] \nplt.hist(data, bins=5) \nplt.xlabel('Value') \nplt.ylabel('Frequency') \nplt.title('Histogram') \nplt.show()",
+        "Answer" : null
     },
     {
         "Question5" : "What is a scatter plot and when would you use it?",
         "Hint" : " A scatter plot shows the relationship between two variables.",
-        "SampleCode" : "import matplotlib.pyplot as plt \nx = [1, 2, 3, 4, 5] \ny = [2, 4, 6, 8, 10] \nplt.scatter(x, y) \nplt.xlabel('X-axis') \nplt.ylabel('Y-axis') \nplt.title('Scatter Plot') \nplt.show()"
+        "SampleCode" : "import matplotlib.pyplot as plt \nx = [1, 2, 3, 4, 5] \ny = [2, 4, 6, 8, 10] \nplt.scatter(x, y) \nplt.xlabel('X-axis') \nplt.ylabel('Y-axis') \nplt.title('Scatter Plot') \nplt.show()",
+        "Answer" : null
     },
     {
         "Question6" : "What does the term 'correlation' mean in data science?",
         "Hint" : "Correlation measures how two variables move together.",
-        "SampleCode" : "import numpy as np \nx = [1, 2, 3, 4, 5] \ny = [2, 4, 6, 8, 10] \ncorrelation = np.corrcoef(x, y)[0, 1] \nprint(correlation)"
+        "SampleCode" : "import numpy as np \nx = [1, 2, 3, 4, 5] \ny = [2, 4, 6, 8, 10] \ncorrelation = np.corrcoef(x, y)[0, 1] \nprint(correlation)",
+        "Answer" : null
     },
     {
         "Question7" : "What is the difference between supervised and unsupervised learning?",
         "Hint" : "Supervised learning uses labeled data, while unsupervised learning uses unlabeled data.",
-        "SampleCode" : null
+        "SampleCode" : null,
+        "Answer" : "Supervised learning involves training a model on labeled data, where the input data comes with corresponding output labels. The model learns to map inputs to outputs based on this training. \nUnsupervised learning, on the other hand, involves training a model on data without labeled responses. The model tries to identify patterns and structure in the input data on its own, often through clustering or dimensionality reduction techniques."
     },
     {
         "Question8" : "How would you generate a list of 10 random numbers between 1 and 100?",
         "Hint" : "Use the random module in Python.",
-        "SampleCode" : "import random \nrandom_numbers = [random.randint(1, 100) for _ in range(10)] \nprint(random_numbers)"
+        "SampleCode" : "import random \nrandom_numbers = [random.randint(1, 100) for _ in range(10)] \nprint(random_numbers)",
+        "Answer" : "[43, 35, 22, 47, 31, 86, 76, 21, 58, 46]"
     },
     {
         "Question9" : "What is a DataFrame in pandas?",
         "Hint" : "A DataFrame is a 2-dimensional labeled data structure with columns of potentially different types.",
-        "SampleCode" : "import pandas as pd \ndata = {'Name': ['Aarav', 'Sanya', 'Rohan'], 'Age': [24, 27, 22]} \ndf = pd.DataFrame(data) \nprint(df)" 
+        "SampleCode" : "import pandas as pd \ndata = {'Name': ['Aarav', 'Sanya', 'Rohan'], 'Age': [24, 27, 22]} \ndf = pd.DataFrame(data) \nprint(df)",
+        "Answer" : "A DataFrame is a 2-dimensional labeled data structure with columns of potentially different types." 
     },
     {
         "Question10" : "How do you find the sum of all values in a list?",
         "Hint" : "Use the sum() function.",
-        "SampleCode" : "numbers = [1, 2, 3, 4, 5] \ntotal_sum = sum(numbers) \nprint(total_sum)" 
+        "SampleCode" : "numbers = [1, 2, 3, 4, 5] \ntotal_sum = sum(numbers) \nprint(total_sum)",
+        "Answer" : "15" 
     }       
 ]
