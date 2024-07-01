@@ -17,11 +17,6 @@ import LanguagesDropdown from "./LanguagesDropdown";
 import QuestionBox from "./QuestionBox";
 
 import { Routes, Route } from "react-router-dom";
-// import Question1 from "./Question1";
-// import Question2 from "./Question2";
-// import Question3 from "./Question3";
-// import Question4 from "./Question4";
-// import Question5 from "./Question5";
 import Questions from "./Questions";
 
 const javascriptDefault = `/**
