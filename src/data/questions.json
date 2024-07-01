@@ -1,32 +1,42 @@
 [        
     {
-        "Question1": "Write a function to find median for any given 5 numbers."        
+        "Question1" : "Write a function to find median for any given 5 numbers.",
+        "Hint" : "Arrange the numbers in order and find the middle one."      
     },
     {
-        "Question2": "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?"
+        "Question2" : "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?",
+        "Hint" : "Add up all the numbers and divide by the number of numbers."
     },
     {
-        "Question3": "How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?"
+        "Question3" : "How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?",
+        "Hint" : "The mode is the number that appears most frequently."
     },
     {
-        "Question4": "What is a histogram and how is it used?"
+        "Question4" : " What is a histogram and how is it used?",
+        "Hint" : "A histogram is a graphical representation of data using bars of different heights."
     },
     {
-        "Question5": "What is a scatter plot and when would you use it?"
+        "Question5" : "What is a scatter plot and when would you use it?",
+        "Hint" : " A scatter plot shows the relationship between two variables."
     },
     {
-        "Question6": "What does the term 'correlation' mean in data science?"
+        "Question6" : "What does the term 'correlation' mean in data science?",
+        "Hint" : "Correlation measures how two variables move together."
     },
     {
-        "Question7": "What is the difference between supervised and unsupervised learning?"
+        "Question7" : "What is the difference between supervised and unsupervised learning?",
+        "Hint" : "Supervised learning uses labeled data, while unsupervised learning uses unlabeled data."
     },
     {
-        "Question8": "How would you generate a list of 10 random numbers between 1 and 100?"
+        "Question8" : "How would you generate a list of 10 random numbers between 1 and 100?",
+        "Hint" : "Use the random module in Python."
     },
     {
-        "Question9": "What is a DataFrame in pandas?"
+        "Question9" : "What is a DataFrame in pandas?",
+        "Hint" : "A DataFrame is a 2-dimensional labeled data structure with columns of potentially different types." 
     },
     {
-        "Question10": "How do you find the sum of all values in a list?"
+        "Question10" : "How do you find the sum of all values in a list?",
+        "Hint" : "Use the sum() function." 
     }       
 ]
