@@ -3,31 +3,192 @@
         "Question1" : "What is the median of the numbers 1, 3, 3, 6, 7, 8, 9?",
         "Hint" : "Arrange the numbers in order and find the middle one.",
         "SampleCode" : "numbers = [1, 3, 3, 6, 7, 8, 9] \nnumbers.sort() \nmedian = numbers[len(numbers) // 2] \nprint(median)",
-        "Answer" : "6"
+        "Answer" : "6",
+        "TestCases" : [
+            {
+                "description": "Odd number of elements",
+                "input": [1, 3, 3, 6, 7, 8, 9],
+                "expected_output": 6
+            },
+            {
+                "description": "Even number of elements",
+                "input": [1, 2, 3, 4, 5, 6],
+                "expected_output": 3.5
+            },
+            {
+                "description": "Single element",
+                "input": [5],
+                "expected_output": 5
+            },
+            {
+                "description": "All elements are the same",
+                "input": [7, 7, 7, 7, 7],
+                "expected_output": 7
+            },
+            {
+                "description": "Negative numbers",
+                "input": [-5, -1, -3, -2, -4],
+                "expected_output": -3
+            }
+        ]
     },
     {
         "Question2" : "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?",
         "Hint" : "Add up all the numbers and divide by the number of numbers.",
         "SampleCode" : "numbers = [4, 8, 15, 16, 23, 42] \nmean = sum(numbers) / len(numbers) \nprint(mean)",
-        "Answer" : "18.0"
+        "Answer" : "18.0",
+        "TestCases": [
+            {
+                "description": "Positive integers",
+                "input": [4, 8, 15, 16, 23, 42],
+                "expected_output": 18.0
+            },
+            {
+                "description": "Negative integers",
+                "input": [-5, -10, -15, -20],
+                "expected_output": -12.5
+            },
+            {
+                "description": "Mixed positive and negative integers",
+                "input": [-5, 0, 5, 10, 15],
+                "expected_output": 5.0
+            },
+            {
+                "description": "Single element",
+                "input": [42],
+                "expected_output": 42.0
+            },
+            {
+                "description": "All elements are zero",
+                "input": [0, 0, 0, 0],
+                "expected_output": 0.0
+            },
+            {
+                "description": "Float numbers",
+                "input": [1.5, 2.5, 3.5, 4.5],
+                "expected_output": 3.0
+            }
+        ]
     },
     {
         "Question3" : "How do you find the mode of the following set of numbers: 1, 2, 2, 3, 4, 4, 4, 5?",
         "Hint" : "The mode is the number that appears most frequently.",
         "SampleCode" : "from collections import Counter \nnumbers = [1, 2, 2, 3, 4, 4, 4, 5] \nmode = Counter(numbers).most_common(1)[0][0] \nprint(mode)",
-        "Answer" : "4"
+        "Answer" : "4",
+        "TestCases": [
+            {
+                "description": "Single mode",
+                "input": [1, 2, 2, 3, 4, 4, 4, 5],
+                "expected_output": 4
+            },
+            {
+                "description": "Multiple modes",
+                "input": [1, 1, 2, 2, 3, 3],
+                "expected_output": [1, 2, 3]
+            },
+            {
+                "description": "All elements are the same",
+                "input": [7, 7, 7, 7, 7],
+                "expected_output": 7
+            },
+            {
+                "description": "No repeating elements",
+                "input": [1, 2, 3, 4, 5],
+                "expected_output": [1, 2, 3, 4, 5]
+            },
+            {
+                "description": "Negative numbers",
+                "input": [-1, -1, -2, -3, -3, -3],
+                "expected_output": -3
+            },
+            {
+                "description": "Float numbers",
+                "input": [1.1, 2.2, 2.2, 3.3, 4.4, 4.4],
+                "expected_output": [2.2, 4.4]
+            }
+        ]
     },
     {
         "Question4" : " What is a histogram and how is it used?",
         "Hint" : "A histogram is a graphical representation of data using bars of different heights.",
         "SampleCode" : "import matplotlib.pyplot as plt \ndata = [1, 2, 2, 3, 4, 4, 4, 5] \nplt.hist(data, bins=5) \nplt.xlabel('Value') \nplt.ylabel('Frequency') \nplt.title('Histogram') \nplt.show()",
-        "Answer" : null
+        "Answer": "A histogram is a graphical representation of data using bars of different heights. It is used to show the frequency distribution of a set of data. Each bar represents the frequency (number of occurrences) of data points within a specific range (bin). Histograms are useful for visualizing the shape of the data distribution and identifying patterns or outliers.",
+        "TestCases": [
+            {
+                "description": "Uniform distribution",
+                "input": [1, 2, 3, 4, 5],
+                "bins": 5,
+                "expected_output": "Each bar should have a height of 1, indicating each value appears once."
+            },
+            {
+                "description": "Single bin",
+                "input": [1, 1, 1, 1, 1],
+                "bins": 1,
+                "expected_output": "A single bar with a height of 5, indicating all values fall within one bin."
+            },
+            {
+                "description": "Multiple identical values",
+                "input": [2, 2, 2, 3, 3, 4, 4, 4, 4],
+                "bins": 3,
+                "expected_output": "Bars of different heights reflecting the frequency of 2 (3 times), 3 (2 times), and 4 (4 times)."
+            },
+            {
+                "description": "Float values",
+                "input": [1.5, 2.5, 2.5, 3.5, 4.5, 4.5],
+                "bins": 4,
+                "expected_output": "Bars representing the frequency of values around the float numbers, with appropriate bin widths."
+            },
+            {
+                "description": "Negative values",
+                "input": [-3, -2, -2, -1, 0, 1, 2],
+                "bins": 4,
+                "expected_output": "Bars representing the frequency of negative and positive values, distributed among the bins."
+            },
+            {
+                "description": "Wide range of values",
+                "input": [1, 10, 20, 30, 40, 50],
+                "bins": 5,
+                "expected_output": "Bars showing sparse distribution of values across a wide range, with each bin containing few or one value."
+            }
+        ]
     },
     {
         "Question5" : "What is a scatter plot and when would you use it?",
         "Hint" : " A scatter plot shows the relationship between two variables.",
         "SampleCode" : "import matplotlib.pyplot as plt \nx = [1, 2, 3, 4, 5] \ny = [2, 4, 6, 8, 10] \nplt.scatter(x, y) \nplt.xlabel('X-axis') \nplt.ylabel('Y-axis') \nplt.title('Scatter Plot') \nplt.show()",
-        "Answer" : null
+        "Answer": "A scatter plot is a type of data visualization that displays values for two variables as a collection of points. Each point represents an observation in the dataset and is positioned according to its values on the two axes (x and y). Scatter plots are used to observe relationships between variables, identify correlations, and detect outliers.",
+        "TestCases": [
+            {
+                "description": "Positive linear relationship",
+                "input_x": [1, 2, 3, 4, 5],
+                "input_y": [2, 4, 6, 8, 10],
+                "expected_output": "Points should form a straight line with a positive slope, indicating a positive correlation."
+            },
+            {
+                "description": "Negative linear relationship",
+                "input_x": [1, 2, 3, 4, 5],
+                "input_y": [10, 8, 6, 4, 2],
+                "expected_output": "Points should form a straight line with a negative slope, indicating a negative correlation."
+            },
+            {
+                "description": "No correlation",
+                "input_x": [1, 2, 3, 4, 5],
+                "input_y": [5, 3, 4, 2, 1],
+                "expected_output": "Points should be scattered randomly, indicating no apparent correlation."
+            },
+            {
+                "description": "Clusters",
+                "input_x": [1, 2, 2, 3, 4, 4, 5],
+                "input_y": [5, 3, 3, 4, 2, 2, 1],
+                "expected_output": "Points should form visible clusters, indicating groupings in the data."
+            },
+            {
+                "description": "Outliers",
+                "input_x": [1, 2, 3, 4, 100],
+                "input_y": [2, 4, 6, 8, 1000],
+                "expected_output": "One point should be far away from the others, indicating an outlier."
+            }
+        ]
     },
     {
         "Question6" : "What does the term 'correlation' mean in data science?",
