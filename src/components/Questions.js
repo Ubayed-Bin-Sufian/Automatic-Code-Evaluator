@@ -1,7 +1,7 @@
 // Get questionID from current URL, Convert questionID to index, Create key string and retrieves question from JSON.
 
 import QuestionBox from "./QuestionBox";
-import questions from "../data/questions.json"
+import questions from "../data/questionFormat.json"
 import { useParams } from "react-router-dom";
 
 const Questions = () => {
