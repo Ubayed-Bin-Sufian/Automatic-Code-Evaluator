@@ -19,6 +19,7 @@ import QuestionBox from "./QuestionBox";
 import { Routes, Route } from "react-router-dom";
 import Questions from "./Questions";
 import TestCases from "./TestCases";
+import HintAnsSamplecode from "./HintAnsSamplecode";
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -239,12 +240,15 @@ const Landing = () => {
 
       <div className="flex flex-row space-x-4 items-start px-4 py-4">        
         <div className="flex flex-col w-full h-full justify-start items-end">
-          <CodeEditorWindow
-            code={code}
-            onChange={onChange}
-            language={language?.value}
-            theme={theme.value}
-          />
+          <Routes>
+            <Route path="/" element= {<CodeEditorWindow
+              code={code}
+              onChange={onChange}
+              language={language?.value}
+              theme={theme.value} />}
+            />
+            <Route path="question/:questionID" element={<HintAnsSamplecode />} />
+          </Routes>
         </div>
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
@@ -255,7 +259,7 @@ const Landing = () => {
             <Route path="/" element={<CustomInput customInput={customInput} setCustomInput={setCustomInput} />}  />
             <Route path="question/:questionID" element={<TestCases />} />
           </Routes>
-          
+
           <div className="flex flex-col items-end">
             <button
               onClick={handleCompile}
