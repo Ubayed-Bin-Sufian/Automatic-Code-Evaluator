@@ -247,7 +247,11 @@ const Landing = () => {
               language={language?.value}
               theme={theme.value} />}
             />
-            <Route path="question/:questionID" element={<HintAnsSamplecode />} />
+            <Route path="question/:questionID" element={<HintAnsSamplecode
+              code={code}
+              onChange={onChange}
+              language={language?.value}
+              theme={theme.value} />} />
           </Routes>
         </div>
 
