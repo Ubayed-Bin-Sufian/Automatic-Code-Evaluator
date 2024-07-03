@@ -1,9 +1,10 @@
 // Get questionID from current URL, Convert questionID to index, Create key string and retrieves question from JSON.
-import questions from "../data/questionFormat.json"
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import CodeEditorWindow from "./CodeEditorWindow";
+import Editor from "@monaco-editor/react";
+import questions from "../data/questionFormat.json"
 
-const HintAnsSamplecode = () => {
+const HintAnsSamplecode = ({ onChange, language, code, theme }) => {
 
   const { questionID } = useParams();  // Destructure the questionID from useParams
   
@@ -20,8 +21,25 @@ const HintAnsSamplecode = () => {
   console.log(answer)  // For debugging purpose
   console.log(samplecode)  // For debugging purpose
 
+  const handleEditorChange = (value) => {
+    setValue(value);
+    onChange("code", value);
+  };
+
+  const [value, setValue] = useState(answer || "");
+
   return (
-      <CodeEditorWindow hintAnsSamplecode={[hint, answer, samplecode]}/>
+    <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
+      <Editor
+        height="70vh"
+        width={`100%`}
+        language={language || "javascript"}
+        value={value}
+        theme={theme}
+        defaultValue="// some comment"
+        onChange={handleEditorChange}
+      />
+    </div>
   );
 };
 
