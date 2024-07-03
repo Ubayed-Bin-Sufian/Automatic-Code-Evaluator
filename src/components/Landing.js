@@ -276,6 +276,7 @@ const Landing = () => {
               {processing ? "Processing..." : "Compile and Execute"}
             </button>
 
+            {/* Button for Hint AI added but needs configure with OpenAI */}
             <button
               onClick={handleCompile}
               disabled={!code}
