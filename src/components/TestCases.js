@@ -16,7 +16,7 @@ const TestCases = () => {
     return testCases.map(testCase => {
 
     // Return a formatted string for each test case with description, input, and expected output
-    return `Description: ${testCase.description}\nInput: ${JSON.stringify(testCase.input)}\nExpected Output: ${testCase.expected_output}\n`;
+    return `Input: ${JSON.stringify(testCase.input)}\nExpected Output: ${testCase.expected_output}\n`;
     }).join('\n'); // Join all formatted test case strings into a single string, separated by new lines
     };
 
