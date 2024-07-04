@@ -15,6 +15,7 @@ const HintAnsSamplecode = ({ onChange, language, code, theme }) => {
   const hint = question["Hint"];  // Access the hint from the question object
   const answer = question["Answer"];  // Access the answer from the question object
   const samplecode = question["SampleCode"];  // Access the sample code from the question object
+  const hintAnsCode = `// Hint: ${hint}\n\n// Answer: ${answer}\n\n// Sample code\n\n// ${samplecode.split('\n').join('\n// ')}`;
   
   console.log(question)  // For debugging purpose
   console.log(hint)  // For debugging purpose
@@ -26,7 +27,7 @@ const HintAnsSamplecode = ({ onChange, language, code, theme }) => {
     onChange("code", value);
   };
 
-  const [value, setValue] = useState(answer || "");
+  const [value, setValue] = useState(hintAnsCode || "");
 
   return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
