@@ -215,6 +215,7 @@ const Landing = () => {
       });
   };
 
+  {/* Function to check status of Test Cases */}
   const checkStatusTestCases = async (token) => {
     const options = {
       method: "GET",
