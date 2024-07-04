@@ -264,7 +264,31 @@ const Landing = () => {
             <Route path="question/:questionID" element={<TestCases />} />
           </Routes>
 
-          <div className="flex flex-col items-end">
+          <div className="flex flex-row space-x-3 justify-end">
+            {/* Button for Test Case added but needs configure with OpenAI */}
+            <button
+              onClick={null}
+              disabled={!code}
+              className={classnames(
+                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Test Case"}
+            </button>
+
+            {/* Button for Hint AI added but needs configure with OpenAI */}
+            <button
+              onClick={null}
+              disabled={!code}
+              className={classnames(
+                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Hint AI"}
+            </button>
+
             <button
               onClick={handleCompile}
               disabled={!code}
@@ -274,19 +298,7 @@ const Landing = () => {
               )}
             >
               {processing ? "Processing..." : "Compile and Execute"}
-            </button>
-
-            {/* Button for Hint AI added but needs configure with OpenAI */}
-            <button
-              onClick={handleCompile}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Hint AI"}
-            </button>
+            </button>                        
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>
