@@ -6,27 +6,22 @@
         "Answer" : "6",
         "TestCases" : [
             {
-                "description": "Odd number of elements",
                 "input": [1, 3, 3, 6, 7, 8, 9],
                 "expected_output": 6
             },
             {
-                "description": "Even number of elements",
                 "input": [1, 2, 3, 4, 5, 6],
                 "expected_output": 3.5
             },
             {
-                "description": "Single element",
                 "input": [5],
                 "expected_output": 5
             },
             {
-                "description": "All elements are the same",
                 "input": [7, 7, 7, 7, 7],
                 "expected_output": 7
             },
             {
-                "description": "Negative numbers",
                 "input": [-5, -1, -3, -2, -4],
                 "expected_output": -3
             }
@@ -39,32 +34,26 @@
         "Answer" : "18.0",
         "TestCases": [
             {
-                "description": "Positive integers",
                 "input": [4, 8, 15, 16, 23, 42],
                 "expected_output": 18.0
             },
             {
-                "description": "Negative integers",
                 "input": [-5, -10, -15, -20],
                 "expected_output": -12.5
             },
             {
-                "description": "Mixed positive and negative integers",
                 "input": [-5, 0, 5, 10, 15],
                 "expected_output": 5.0
             },
             {
-                "description": "Single element",
                 "input": [42],
                 "expected_output": 42.0
             },
             {
-                "description": "All elements are zero",
                 "input": [0, 0, 0, 0],
                 "expected_output": 0.0
             },
             {
-                "description": "Float numbers",
                 "input": [1.5, 2.5, 3.5, 4.5],
                 "expected_output": 3.0
             }
@@ -77,32 +66,26 @@
         "Answer" : "4",
         "TestCases": [
             {
-                "description": "Single mode",
                 "input": [1, 2, 2, 3, 4, 4, 4, 5],
                 "expected_output": 4
             },
             {
-                "description": "Multiple modes",
                 "input": [1, 1, 2, 2, 3, 3],
                 "expected_output": [1, 2, 3]
             },
             {
-                "description": "All elements are the same",
                 "input": [7, 7, 7, 7, 7],
                 "expected_output": 7
             },
             {
-                "description": "No repeating elements",
                 "input": [1, 2, 3, 4, 5],
                 "expected_output": [1, 2, 3, 4, 5]
             },
             {
-                "description": "Negative numbers",
                 "input": [-1, -1, -2, -3, -3, -3],
                 "expected_output": -3
             },
             {
-                "description": "Float numbers",
                 "input": [1.1, 2.2, 2.2, 3.3, 4.4, 4.4],
                 "expected_output": [2.2, 4.4]
             }
@@ -115,37 +98,31 @@
         "Answer": "A histogram is a graphical representation of data using bars of different heights. It is used to show the frequency distribution of a set of data. Each bar represents the frequency (number of occurrences) of data points within a specific range (bin). Histograms are useful for visualizing the shape of the data distribution and identifying patterns or outliers.",
         "TestCases": [
             {
-                "description": "Uniform distribution",
                 "input": [1, 2, 3, 4, 5],
                 "bins": 5,
                 "expected_output": "Each bar should have a height of 1, indicating each value appears once."
             },
             {
-                "description": "Single bin",
                 "input": [1, 1, 1, 1, 1],
                 "bins": 1,
                 "expected_output": "A single bar with a height of 5, indicating all values fall within one bin."
             },
             {
-                "description": "Multiple identical values",
                 "input": [2, 2, 2, 3, 3, 4, 4, 4, 4],
                 "bins": 3,
                 "expected_output": "Bars of different heights reflecting the frequency of 2 (3 times), 3 (2 times), and 4 (4 times)."
             },
             {
-                "description": "Float values",
                 "input": [1.5, 2.5, 2.5, 3.5, 4.5, 4.5],
                 "bins": 4,
                 "expected_output": "Bars representing the frequency of values around the float numbers, with appropriate bin widths."
             },
             {
-                "description": "Negative values",
                 "input": [-3, -2, -2, -1, 0, 1, 2],
                 "bins": 4,
                 "expected_output": "Bars representing the frequency of negative and positive values, distributed among the bins."
             },
             {
-                "description": "Wide range of values",
                 "input": [1, 10, 20, 30, 40, 50],
                 "bins": 5,
                 "expected_output": "Bars showing sparse distribution of values across a wide range, with each bin containing few or one value."
@@ -159,31 +136,26 @@
         "Answer": "A scatter plot is a type of data visualization that displays values for two variables as a collection of points. Each point represents an observation in the dataset and is positioned according to its values on the two axes (x and y). Scatter plots are used to observe relationships between variables, identify correlations, and detect outliers.",
         "TestCases": [
             {
-                "description": "Positive linear relationship",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [2, 4, 6, 8, 10],
                 "expected_output": "Points should form a straight line with a positive slope, indicating a positive correlation."
             },
             {
-                "description": "Negative linear relationship",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [10, 8, 6, 4, 2],
                 "expected_output": "Points should form a straight line with a negative slope, indicating a negative correlation."
             },
             {
-                "description": "No correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [5, 3, 4, 2, 1],
                 "expected_output": "Points should be scattered randomly, indicating no apparent correlation."
             },
-            {
-                "description": "Clusters",
+            {                
                 "input_x": [1, 2, 2, 3, 4, 4, 5],
                 "input_y": [5, 3, 3, 4, 2, 2, 1],
                 "expected_output": "Points should form visible clusters, indicating groupings in the data."
             },
-            {
-                "description": "Outliers",
+            {                
                 "input_x": [1, 2, 3, 4, 100],
                 "input_y": [2, 4, 6, 8, 1000],
                 "expected_output": "One point should be far away from the others, indicating an outlier."
@@ -197,37 +169,31 @@
         "Answer": "In data science, correlation measures the strength and direction of the relationship between two variables. It indicates how one variable changes as the other variable changes. The correlation coefficient, typically denoted as r, ranges from -1 to 1, where 1 indicates a perfect positive correlation (as one variable increases, the other variable also increases), -1 indicates a perfect negative correlation (as one variable increases, the other variable decreases), and 0 indicates no correlation (there is no predictable relationship between the variables).",
         "TestCases": [
             {
-                "description": "Perfect positive correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [2, 4, 6, 8, 10],
                 "expected_output": 1.0
             },
             {
-                "description": "Perfect negative correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [10, 8, 6, 4, 2],
                 "expected_output": -1.0
             },
             {
-                "description": "No correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [5, 3, 4, 2, 1],
                 "expected_output": 0.0
             },
             {
-                "description": "Weak positive correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [1, 2, 2, 3, 5],
                 "expected_output": 0.9
             },
             {
-                "description": "Weak negative correlation",
                 "input_x": [1, 2, 3, 4, 5],
                 "input_y": [5, 4, 4, 2, 1],
                 "expected_output": -0.9
             },
             {
-                "description": "Random values with no clear pattern",
                 "input_x": [10, 20, 30, 40, 50],
                 "input_y": [1, 5, 3, 8, 7],
                 "expected_output": 0.2
@@ -241,7 +207,6 @@
         "Answer": "Supervised learning involves training a model on labeled data, where the input data comes with corresponding output labels. The model learns to map inputs to outputs based on this training. \nUnsupervised learning, on the other hand, involves training a model on data without labeled responses. The model tries to identify patterns and structure in the input data on its own, often through clustering or dimensionality reduction techniques.",
         "TestCases": [
             {
-                "description": "Supervised learning with labeled data",
                 "input": {
                     "X": [[1], [2], [3], [4], [5]],
                     "y": [2, 4, 6, 8, 10]
@@ -249,14 +214,12 @@
                 "expected_output": "A linear model that predicts values close to [2, 4, 6, 8, 10] when provided with inputs [1, 2, 3, 4, 5]."
             },
             {
-                "description": "Unsupervised learning with unlabeled data",
                 "input": {
                     "X": [[1, 2], [1, 3], [2, 2], [8, 8], [8, 9], [9, 8]]
                 },
                 "expected_output": "Clusters with centers close to the mean of the input data points, e.g., [[1.5, 2.33], [8.33, 8.33]]."
             },
             {
-                "description": "Predict new data with supervised learning",
                 "input": {
                     "X_train": [[1], [2], [3], [4], [5]],
                     "y_train": [2, 4, 6, 8, 10],
@@ -265,7 +228,6 @@
                 "expected_output": "A prediction close to 12 for the input [6] using the trained linear model."
             },
             {
-                "description": "Cluster new data with unsupervised learning",
                 "input": {
                     "X_train": [[1, 2], [1, 3], [2, 2], [8, 8], [8, 9], [9, 8]],
                     "X_new": [[1, 1], [9, 9]]
@@ -281,31 +243,26 @@
         "Answer" : "[43, 35, 22, 47, 31, 86, 76, 21, 58, 46]",
         "TestCases": [
             {
-                "description": "Check the length of the generated list",
                 "input": null,
                 "expected_output": 10,
                 "function": "len(random_numbers)"
             },
             {
-                "description": "Check if all numbers are within the range 1 to 100",
                 "input": null,
                 "expected_output": true,
                 "function": "all(1 <= num <= 100 for num in random_numbers)"
             },
             {
-                "description": "Check if the numbers are integers",
                 "input": null,
                 "expected_output": true,
                 "function": "all(isinstance(num, int) for num in random_numbers)"
             },
             {
-                "description": "Check for unique numbers (even though they can be the same due to randomness, this can be a sample test for a particular instance)",
                 "input": [43, 35, 22, 47, 31, 86, 76, 21, 58, 46],
                 "expected_output": true,
                 "function": "len(set(random_numbers)) == 10"
             },
             {
-                "description": "Check if the sum of numbers is within the expected range (as a broad check)",
                 "input": null,
                 "expected_output": true,
                 "function": "100 <= sum(random_numbers) <= 1000"
@@ -319,37 +276,31 @@
         "Answer" : "A DataFrame is a 2-dimensional labeled data structure with columns of potentially different types.",
         "TestCases": [
             {
-                "description": "Check the type of the created object",
                 "input": null,
                 "expected_output": "<class 'pandas.core.frame.DataFrame'>",
                 "function": "type(df)"
             },
             {
-                "description": "Check the columns of the DataFrame",
                 "input": null,
                 "expected_output": "Index(['Name', 'Age'], dtype='object')",
                 "function": "df.columns"
             },
             {
-                "description": "Check the data types of the columns",
                 "input": null,
                 "expected_output": "{'Name': 'object', 'Age': 'int64'}",
                 "function": "df.dtypes.apply(str).to_dict()"
             },
             {
-                "description": "Check the number of rows and columns",
                 "input": null,
                 "expected_output": "(3, 2)",
                 "function": "df.shape"
             },
             {
-                "description": "Check the values of the 'Name' column",
                 "input": null,
                 "expected_output": "['Aarav', 'Sanya', 'Rohan']",
                 "function": "df['Name'].tolist()"
             },
             {
-                "description": "Check the values of the 'Age' column",
                 "input": null,
                 "expected_output": "[24, 27, 22]",
                 "function": "df['Age'].tolist()"
@@ -363,37 +314,31 @@
         "Answer" : "15",
         "TestCases": [
             {
-                "description": "Sum of a list of positive integers",
                 "input": [1, 2, 3, 4, 5],
                 "expected_output": 15,
                 "function": "sum(input)"
             },
             {
-                "description": "Sum of a list of negative integers",
                 "input": [-1, -2, -3, -4, -5],
                 "expected_output": -15,
                 "function": "sum(input)"
             },
             {
-                "description": "Sum of a list with both positive and negative integers",
                 "input": [-1, 2, -3, 4, -5],
                 "expected_output": -3,
                 "function": "sum(input)"
             },
             {
-                "description": "Sum of a list with zeros",
                 "input": [0, 0, 0, 0, 0],
                 "expected_output": 0,
                 "function": "sum(input)"
             },
             {
-                "description": "Sum of an empty list",
                 "input": [],
                 "expected_output": 0,
                 "function": "sum(input)"
             },
             {
-                "description": "Sum of a list with one element",
                 "input": [42],
                 "expected_output": 42,
                 "function": "sum(input)"
