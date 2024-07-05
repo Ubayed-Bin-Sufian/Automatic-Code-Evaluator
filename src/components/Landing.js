@@ -20,6 +20,7 @@ import { Routes, Route } from "react-router-dom";
 import Questions from "./Questions";
 import TestCases from "./TestCases";
 import HintAnsSamplecode from "./HintAnsSamplecode";
+import OutputDetailsTestCases from "./OutputDetailsTestCases";
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -55,6 +56,7 @@ const Landing = () => {
   const [code, setCode] = useState(javascriptDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
+  const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
   const [theme, setTheme] = useState("cobalt");
@@ -168,7 +170,7 @@ const Landing = () => {
     }
   };
   
-  {/* Function to handle compile of Test Cases */}
+  /* Function to handle compile of Test Cases */
   const handleCompileTestCases = () => {
     setProcessingTestCases(true);
     const formData = {
@@ -215,7 +217,7 @@ const Landing = () => {
       });
   };
 
-  {/* Function to check status of Test Cases */}
+  /* Function to check status of Test Cases */
   const checkStatusTestCases = async (token) => {
     const options = {
       method: "GET",
@@ -239,7 +241,7 @@ const Landing = () => {
         return;
       } else {
         setProcessingTestCases(false);
-        setOutputDetails(response.data);
+        setOutputDetailsTestCases(response.data);
         showSuccessToast(`Compiled Successfully!`);
         console.log("response.data", response.data);
         return;
@@ -385,6 +387,7 @@ const Landing = () => {
             </button>                        
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
+          {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
         </div>
       </div>      
     </>
