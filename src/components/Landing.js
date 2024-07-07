@@ -351,30 +351,6 @@ const Landing = () => {
           </Routes>
 
           <div className="flex flex-row space-x-3 justify-end">
-            {/* Button for Test Case added but needs comparison with output */}
-            <button
-              onClick={handleCompileTestCases}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processingTestCases ? "Processing..." : "Test Case"}
-            </button>
-
-            {/* Button for Hint AI added but needs configure with OpenAI */}
-            <button
-              onClick={null}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Hint AI"}
-            </button>
-
             <button
               onClick={handleCompile}
               disabled={!code}
@@ -384,7 +360,31 @@ const Landing = () => {
               )}
             >
               {processing ? "Processing..." : "Compile and Execute"}
-            </button>                        
+            </button>
+
+            {/* Button for Test Case added but needs comparison with output */}
+            <button
+              onClick={handleCompileTestCases}
+              disabled={!code}
+              className={classnames(
+                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processingTestCases ? "Processing..." : "Submit"}
+            </button>
+
+            {/* Button for Hint AI added but needs configure with OpenAI */}
+            {/* <button
+              onClick={null}
+              disabled={!code}
+              className={classnames(
+                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processing ? "Processing..." : "Hint AI"}
+            </button> */}                       
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
           {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
