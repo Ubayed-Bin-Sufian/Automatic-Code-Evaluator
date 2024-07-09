@@ -7,12 +7,12 @@ import { useParams } from "react-router-dom";
 const Questions = () => {
 
   const { questionID } = useParams();  // Destructure the questionID from useParams
-  console.log({ questionID });  // For debuggin purpose
+  // console.log({ questionID });  // For debuggin purpose
 
   const questionIndex = parseInt(questionID) - 1; // Convert questionID (which is a string) to an index (an integer)
   const questionKey = `Question${questionID}`;  // Uses template literals to construct a string
   const question = questions[questionIndex][questionKey];
-  console.log(question)
+  // console.log(question)
 
   return (
       <div>
