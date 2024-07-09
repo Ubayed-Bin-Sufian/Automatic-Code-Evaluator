@@ -8,7 +8,7 @@ const HintAnsSamplecode = ({ onChange, language, code, theme }) => {
 
   const { questionID } = useParams();  // Destructure the questionID from useParams
   
-  console.log({ questionID });  // For debuggin purpose
+  // console.log({ questionID });  // For debuggin purpose
 
   const questionIndex = parseInt(questionID) - 1; // Convert questionID (which is a string) to an index (an integer)
   const question = questions[questionIndex];  // Get the question object using the index
@@ -17,10 +17,10 @@ const HintAnsSamplecode = ({ onChange, language, code, theme }) => {
   const samplecode = question["SampleCode"];  // Access the sample code from the question object
   const hintAnsCode = `// Hint: ${hint}\n\n// Answer: ${answer}\n\n// Sample code\n\n${samplecode.split('\n').join('\n')}`;
   
-  console.log(question)  // For debugging purpose
-  console.log(hint)  // For debugging purpose
-  console.log(answer)  // For debugging purpose
-  console.log(samplecode)  // For debugging purpose
+  // console.log(question)  // For debugging purpose
+  // console.log(hint)  // For debugging purpose
+  // console.log(answer)  // For debugging purpose
+  // console.log(samplecode)  // For debugging purpose
 
   const handleEditorChange = (value) => {
     setValue(value);
