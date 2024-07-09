@@ -172,87 +172,12 @@ const Landing = () => {
   
   /* Function to handle compile of Test Cases */
   const handleCompileTestCases = () => {
-    setProcessingTestCases(true);
-    const formData = {
-      language_id: language.id,
-      // encode source code in base64
-      source_code: btoa(code),
-      stdin: btoa(customInput),
-    };
-    const options = {
-      method: "POST",
-      url: "https://judge0-ce.p.rapidapi.com/submissions",
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
-      },
-      data: formData,
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log("res.data", response.data);
-        const token = response.data.token;
-        checkStatusTestCases(token);
-      })
-      .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        // get error status
-        let status = err.response.status;
-        console.log("status", status);
-        if (status === 429) {
-          console.log("too many requests", status);
-
-          showErrorToast(
-            `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
-            10000
-          );
-        }
-        setProcessingTestCases(false);
-        console.log("catch block...", error);
-      });
-  };
-
-  /* Function to check status of Test Cases */
-  const checkStatusTestCases = async (token) => {
-    const options = {
-      method: "GET",
-      url: "https://judge0-ce.p.rapidapi.com/submissions" +"/" + token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
-      },
-    };
-    try {
-      let response = await axios.request(options);
-      let statusId = response.data.status?.id;
-
-      // Processed - we have a result
-      if (statusId === 1 || statusId === 2) {
-        // still processing
-        setTimeout(() => {
-          checkStatusTestCases(token);
-        }, 2000);
-        return;
-      } else {
-        setProcessingTestCases(false);
-        setOutputDetailsTestCases(response.data);
-        showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
-        return;
-      }
-    } catch (err) {
-      console.log("err", err);
-      setProcessingTestCases(false);
-      showErrorToast();
+    const testCases = [/* array of test cases */];
+    for (let i = 0; i < testCases.length; i++) {
+      handleCompile();
     }
   };
-
+  
   function handleThemeChange(th) {
     const theme = th;
     console.log("theme...", theme);
