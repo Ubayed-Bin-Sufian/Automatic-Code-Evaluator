@@ -18,9 +18,11 @@ import QuestionBox from "./QuestionBox";
 
 import { Routes, Route } from "react-router-dom";
 import Questions from "./Questions";
-import TestCases from "./TestCases";
+// import TestCases from "./TestCases";
 import HintAnsSamplecode from "./HintAnsSamplecode";
 import OutputDetailsTestCases from "./OutputDetailsTestCases";
+
+import questionData from "../data/questionFormat.json"
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -62,6 +64,7 @@ const Landing = () => {
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [question, setQuestion] = useState("");  // Variable to store question
+  const [expected_output, setExpected_output] = useState("")  // Variable to store expected_output
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -89,6 +92,28 @@ const Landing = () => {
       }
     }
   };
+
+  //  initializes the customInput state with the input of the first test case 
+  useEffect(() => {
+    // Access the first question's test cases
+    const testCases = questionData[0].TestCases;
+    
+    // Set the value of customInput to the input of the first test case
+    if (testCases.length > 0) {
+        setCustomInput(testCases[0].input.join(', ')); // Needs to adjust as required
+    }
+
+    if (testCases.length > 0) {
+      setExpected_output(testCases[0].expected_output);
+  }    
+
+    // Log the input and expected output of each test case
+    testCases.forEach(testCase => {
+        console.log('Input:', testCase.input);
+        console.log('Expected_Output:', testCase.expected_output)
+    });
+}, []);
+  
   const handleCompile = () => {
     setProcessing(true);
     const formData = {
@@ -96,6 +121,8 @@ const Landing = () => {
       // encode source code in base64
       source_code: btoa(code),
       stdin: btoa(customInput),
+      // encode expected output in base64
+      expected_output: btoa(expected_output),
     };
     const options = {
       method: "POST",
@@ -172,10 +199,12 @@ const Landing = () => {
   
   /* Function to handle compile of Test Cases */
   const handleCompileTestCases = () => {
+    setProcessingTestCases(true);
     const testCases = [/* array of test cases */];
     for (let i = 0; i < testCases.length; i++) {
       handleCompile();
     }
+    setProcessingTestCases(false);
   };
   
   function handleThemeChange(th) {
@@ -267,13 +296,8 @@ const Landing = () => {
         </div>
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
-          <OutputWindow outputDetails={outputDetails} />
-
-          {/*CustomInput Window  */}
-          <Routes>
-            <Route path="/" element={<CustomInput customInput={customInput} setCustomInput={setCustomInput} />}  />
-            <Route path="question/:questionID" element={<TestCases />} />
-          </Routes>
+          <OutputWindow outputDetails={outputDetails} />          
+          <CustomInput />            
 
           <div className="flex flex-row space-x-3 justify-end">
             <button
