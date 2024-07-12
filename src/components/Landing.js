@@ -104,15 +104,13 @@ const Landing = () => {
     // Set the value of customInput to the input of the first test case
     if (testCases.length > 0) {
         setCustomInput(testCases[0].input.join(', ')); // Needs to adjust as required
-        setExpectedOutput(testCases[0].expected_output);        
+        setExpectedOutput(testCases[0].expected_output);
+        setExpectedOutput_json(testCases[0].expected_output);
     }
 
     testCases.forEach(testCase => {
-        console.log('Input:', testCase.input);
-        console.log('Expected_Output:', testCase.expected_output)
-
-        // Update expected output for each test case
-        setExpectedOutput_json(testCases.expected_output);
+        console.log('Input (from JSON):', testCase.input);
+        console.log('Expected_Output (from JSON):', testCase.expected_output)
     });
 }, []);
   
@@ -174,20 +172,22 @@ const Landing = () => {
         "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
       },
     };
-    try {
+    try {      
+      let expected_output = response.data.expected_output;
+      let decodedExpectedOutput = atob(expected_output);  // datatype: string    
+      setResult(decodedExpectedOutput);
+
+      const expectedOutputString = String(expectedOutput_json); // expectedOutput_json (number) converted to string
+
+      // Trim and compare strings to avoid issues with spaces
+      if (decodedExpectedOutput.trim() === expectedOutputString.trim()) {
+        console.log("Correct Answer");
+      } else {
+        console.log("Wrong Answer");
+      }
+      
       let response = await axios.request(options);
       let statusId = response.data.status?.id;
-      
-      let expected_output = response.data.expected_output;
-      let decodedExpectedOutput = atob(expected_output);      
-      setResult(decodedExpectedOutput);
-      console.log("expected_output:", decodedExpectedOutput);
-
-      if (setResult === setExpectedOutput_json) {
-        console.log("Correct Answer")
-      } else {
-        console.log("Wrong Answer")
-      }
 
       // Processed - we have a result
       if (statusId === 1 || statusId === 2) {
