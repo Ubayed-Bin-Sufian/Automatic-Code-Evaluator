@@ -58,13 +58,16 @@ const Landing = () => {
   const [code, setCode] = useState(javascriptDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
+  // const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [question, setQuestion] = useState("");  // Variable to store question
-  const [expected_output, setExpected_output] = useState("")  // Variable to store expected_output
+  const [expectedOutput, setExpectedOutput] = useState("")  // Variable to store expected_output
+  
+  const [expectedOutput_json, setExpectedOutput_json] = useState("")  // Variable to store expected_output from JSON 
+  const [result, setResult] = useState("")
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -101,16 +104,15 @@ const Landing = () => {
     // Set the value of customInput to the input of the first test case
     if (testCases.length > 0) {
         setCustomInput(testCases[0].input.join(', ')); // Needs to adjust as required
+        setExpectedOutput(testCases[0].expected_output);        
     }
 
-    if (testCases.length > 0) {
-      setExpected_output(testCases[0].expected_output);
-  }    
-
-    // Log the input and expected output of each test case
     testCases.forEach(testCase => {
         console.log('Input:', testCase.input);
         console.log('Expected_Output:', testCase.expected_output)
+
+        // Update expected output for each test case
+        setExpectedOutput_json(testCases.expected_output);
     });
 }, []);
   
@@ -122,7 +124,7 @@ const Landing = () => {
       source_code: btoa(code),
       stdin: btoa(customInput),
       // encode expected output in base64
-      expected_output: btoa(expected_output),
+      expected_output: btoa(expectedOutput),
     };
     const options = {
       method: "POST",
@@ -175,6 +177,17 @@ const Landing = () => {
     try {
       let response = await axios.request(options);
       let statusId = response.data.status?.id;
+      
+      let expected_output = response.data.expected_output;
+      let decodedExpectedOutput = atob(expected_output);      
+      setResult(decodedExpectedOutput);
+      console.log("expected_output:", decodedExpectedOutput);
+
+      if (setResult === setExpectedOutput_json) {
+        console.log("Correct Answer")
+      } else {
+        console.log("Wrong Answer")
+      }
 
       // Processed - we have a result
       if (statusId === 1 || statusId === 2) {
@@ -336,7 +349,7 @@ const Landing = () => {
             </button> */}                       
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-          {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
+          {/* {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />} */}
         </div>
       </div>      
     </>
