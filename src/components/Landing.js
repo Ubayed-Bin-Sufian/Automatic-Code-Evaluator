@@ -49,23 +49,46 @@ const binarySearchHelper = (arr, target, start, end) => {
  }
 };
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const target = 5;
-console.log(binarySearch(arr, target));
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', function(input) {
+      input = input.trim();
+
+        // Find the position of the closing bracket
+        let closingBracketIndex = input.indexOf(']') + 1;
+        if (closingBracketIndex === 0) {
+            throw new Error("Input format is incorrect.");
+        }
+
+        // Extract array part and number part
+        let arrayPart = input.substring(0, closingBracketIndex);
+        let numberPart = input.substring(closingBracketIndex).trim();
+
+        // Remove the brackets and split by comma
+        arrayPart = arrayPart.slice(1, -1); // Remove the [ and ] characters
+        let x = arrayPart.split(',').map(Number); // Split by comma and convert to numbers
+
+        let y = parseInt(numberPart);
+
+        // Output the results
+        
+       console.log( binarySearch(x,y))
+});
+
+
 `;
 
 const Landing = () => {
   const [code, setCode] = useState(javascriptDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  // const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
+  const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [question, setQuestion] = useState("");  // Variable to store question
   const [expectedOutput, setExpectedOutput] = useState("")  // Variable to store expected_output
-  
+
   const [expectedOutput_json, setExpectedOutput_json] = useState("")  // Variable to store expected_output from JSON 
   const [result, setResult] = useState("")
 
@@ -76,7 +99,10 @@ const Landing = () => {
     console.log("selected Option...", sl);
     setLanguage(sl);
   };
-
+  let testCaseJsonResult={
+    correctanswer:0,
+    totaltestcases:0,
+  }
   useEffect(() => {
     if (enterPress && ctrlPress) {
       console.log("enterPress", enterPress);
@@ -97,128 +123,206 @@ const Landing = () => {
   };
 
   //  initializes the customInput state with the input of the first test case 
-  useEffect(() => {
-    // Access the first question's test cases
-    const testCases = questionData[0].TestCases;
+//   useEffect(() => {
+//     // Access the first question's test cases
+//     const testCases = questionData[0].TestCases;
     
-    // Set the value of customInput to the input of the first test case
-    if (testCases.length > 0) {
-        setCustomInput(testCases[0].input.join(', ')); // Needs to adjust as required
-        setExpectedOutput(testCases[0].expected_output);
-        setExpectedOutput_json(testCases[0].expected_output);
-    }
+//     // Set the value of customInput to the input of the first test case
 
-    testCases.forEach(testCase => {
-        console.log('Input (from JSON):', testCase.input);
-        console.log('Expected_Output (from JSON):', testCase.expected_output)
-    });
-}, []);
+
+//     testCases.forEach(testCase => {
+//         console.log('Input (from JSON):', testCase.input);
+//         console.log('Expected_Output (from JSON):', testCase.expected_output)
+//     });
+// }, []);
   
-  const handleCompile = () => {
-    setProcessing(true);
-    const formData = {
-      language_id: language.id,
-      // encode source code in base64
-      source_code: btoa(code),
-      stdin: btoa(customInput),
-      // encode expected output in base64
-      expected_output: btoa(expectedOutput),
-    };
-    const options = {
-      method: "POST",
-      url: "https://judge0-ce.p.rapidapi.com/submissions",
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
-      },
-      data: formData,
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log("res.data", response.data);
-        const token = response.data.token;
-        checkStatus(token);
-      })
-      .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        // get error status
-        let status = err.response.status;
-        console.log("status", status);
-        if (status === 429) {
-          console.log("too many requests", status);
-
-          showErrorToast(
-            `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
-            10000
-          );
-        }
-        setProcessing(false);
-        console.log("catch block...", error);
-      });
+const handleCompile = () => {
+  setProcessing(true);
+  const formData = {
+    language_id: language.id,
+    // encode source code in base64
+    source_code: btoa(code),
+    stdin: btoa(customInput),
+  };
+  const options = {
+    method: "POST",
+    url: "https://judge0-extra-ce.p.rapidapi.com/submissions",
+    params: { base64_encoded: "true", fields: "*" },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      "X-RapidAPI-Key": "c652945428msh6a7968025ebb89bp12202cjsn087300a47178",
+    },
+    data: formData,
   };
 
-  const checkStatus = async (token) => {
-    const options = {
-      method: "GET",
-      url: "https://judge0-ce.p.rapidapi.com/submissions" +"/" + token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
-      },
-    };
-    try {      
-      let expected_output = response.data.expected_output;
-      let decodedExpectedOutput = atob(expected_output);  // datatype: string    
-      setResult(decodedExpectedOutput);
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log("res.data", response.data);
+      const token = response.data.token;
+      checkStatus(token);
+    })
+    .catch((err) => {
+      let error = err.response ? err.response.data : err;
+      // get error status
+      let status = err.response.status;
+      console.log("status", status);
+      if (status === 429) {
+        console.log("too many requests", status);
 
-      const expectedOutputString = String(expectedOutput_json); // expectedOutput_json (number) converted to string
-
-      // Trim and compare strings to avoid issues with spaces
-      if (decodedExpectedOutput.trim() === expectedOutputString.trim()) {
-        console.log("Correct Answer");
-      } else {
-        console.log("Wrong Answer");
+        showErrorToast(
+          `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
+          10000
+        );
       }
-      
-      let response = await axios.request(options);
-      let statusId = response.data.status?.id;
-
-      // Processed - we have a result
-      if (statusId === 1 || statusId === 2) {
-        // still processing
-        setTimeout(() => {
-          checkStatus(token);
-        }, 2000);
-        return;
-      } else {
-        setProcessing(false);
-        setOutputDetails(response.data);
-        showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
-        return;
-      }
-    } catch (err) {
-      console.log("err", err);
       setProcessing(false);
-      showErrorToast();
-    }
+      console.log("catch block...", error);
+    });
+};
+const checkStatus = async (token) => {
+  const options = {
+    method: "GET",
+    url: "https://judge0-extra-ce.p.rapidapi.com/submissions" + "/" + token,
+    params: { base64_encoded: "true", fields: "*" },
+    headers: {
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      "X-RapidAPI-Key": "c652945428msh6a7968025ebb89bp12202cjsn087300a47178",
+    },
   };
-  
-  /* Function to handle compile of Test Cases */
-  const handleCompileTestCases = () => {
-    setProcessingTestCases(true);
-    const testCases = [/* array of test cases */];
-    for (let i = 0; i < testCases.length; i++) {
-      handleCompile();
+  try {
+    let response = await axios.request(options);
+    let statusId = response.data.status?.id;
+
+    // Processed - we have a result
+    if (statusId === 1 || statusId === 2) {
+      // still processing
+      setTimeout(() => {
+        checkStatus(token);
+      }, 2000);
+      return;
+    } else {
+      setProcessing(false);
+      setOutputDetails(response.data);
+      showSuccessToast(`Compiled Successfully!`);
+      console.log("response.data", response.data);
+      return;
     }
+  } catch (err) {
+    console.log("err", err);
+    setProcessing(false);
+    showErrorToast();
+  }
+};
+const checkStatusCustomInput = async (token,expectedoutput) => {
+  const options = {
+    method: "GET",
+    url: "https://judge0-extra-ce.p.rapidapi.com/submissions" + "/" + token,
+    params: { base64_encoded: "true", fields: "*" },
+    headers: {
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      "X-RapidAPI-Key": "c652945428msh6a7968025ebb89bp12202cjsn087300a47178",
+    },
+  };
+  try {
+    let response = await axios.request(options);
+    let statusId = response.data.status?.id;
+
+    // Processed - we have a result
+    if (statusId === 1 || statusId === 2) {
+      // still processing
+      setTimeout(() => {
+        checkStatusCustomInput(token);
+      }, 2000);
+      return;
+    } else {
+      setProcessingTestCases(false);
+      console.log('answer',atob(response.data.stdout))
+      console.log('expectedOutput',expectedoutput)
+      if(atob(response.data.stdout) == expectedoutput){
+
+        console.log('correctanswer')
+    testCaseJsonResult.correctanswer++
+      }
+     
+      console.log("response.data", response.data);
+      return;
+    }
+  } catch (err) {
+    console.log("err", err);
     setProcessingTestCases(false);
+    showErrorToast();
+  }
+};
+const compileCustomInput = async (providedInput, providedOutput) => {
+  setProcessingTestCases(true);
+
+  const formData = {
+    language_id: language.id,
+    // encode source code in base64
+    source_code: btoa(code),
+    stdin: btoa(providedInput),
   };
+
+  const options = {
+    method: "POST",
+    url: "https://judge0-extra-ce.p.rapidapi.com/submissions",
+    params: { base64_encoded: "true", fields: "*" },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      "X-RapidAPI-Key": "c652945428msh6a7968025ebb89bp12202cjsn087300a47178",
+    },
+    data: formData,
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log("res.data", response.data);
+    const token = response.data.token;
+    await checkStatusCustomInput(token, providedOutput);
+  } catch (err) {
+    let error = err.response ? err.response.data : err;
+    // get error status
+    let status = err.response ? err.response.status : "Unknown";
+    console.log("status", status);
+    if (status === 429) {
+      console.log("too many requests", status);
+      showErrorToast(
+        `Quota of 100 requests exceeded for the Day! Please read the blog on freeCodeCamp to learn how to setup your own RAPID API Judge0!`,
+        10000
+      );
+    }
+    console.log("catch block...", error);
+    setProcessingTestCases(false);
+  }
+};
+
+const handleCompileTestCases = async () => {
+  setProcessingTestCases(true);
+  testCaseJsonResult.totaltestcases = questionData[0].TestCases.length;
+  console.log('totaltestcases', questionData[0].TestCases.length);
+  console.log('totaltestcases2', testCaseJsonResult);
+
+  const promises = questionData[0].TestCases.map(testCase => {
+    const { input, expected_output: expectedOutput } = testCase;
+    console.log(input);
+    return compileCustomInput(input, expectedOutput);
+  });
+
+  try {
+    await Promise.all(promises);
+    showSuccessToast(`Test Cases Checked Successfully`);
+  } catch (err) {
+    console.error("Error compiling test cases:", err);
+  } finally {
+    setProcessingTestCases(false);
+    setOutputDetailsTestCases(testCaseJsonResult);
+  }
+};
+
   
   function handleThemeChange(th) {
     const theme = th;
@@ -321,7 +425,7 @@ const Landing = () => {
                 !code ? "opacity-50" : ""
               )}
             >
-              {processing ? "Processing..." : "Compile and Execute"}
+              {processing ? "Processing..." : "Run"}
             </button>
 
             {/* Button for Test Case added but needs comparison with output */}
@@ -349,7 +453,7 @@ const Landing = () => {
             </button> */}                       
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-          {/* {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />} */}
+          {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
         </div>
       </div>      
     </>
