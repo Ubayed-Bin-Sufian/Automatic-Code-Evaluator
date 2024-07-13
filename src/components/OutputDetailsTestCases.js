@@ -1,24 +1,19 @@
 import React from "react";
 
-const OutputDetailsTestCases = ({ OutputDetailsTestCases }) => {
+const OutputDetailsTestCases = ({ outputDetailsTestCases }) => {
+  console.log('OUtputes',outputDetailsTestCases)
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
       <p className="text-sm">
-        Status:{" "}
+        Total test case:{" "}
         <span className="font-semibold text-green-500 px-2 py-1 rounded-md bg-gray-100">
-          {OutputDetailsTestCases?.status?.description}
+          {outputDetailsTestCases?. totaltestcases}
         </span>
       </p>
       <p className="text-sm">
-        Memory:{" "}
+        Correct test case:{" "}
         <span className="font-semibold px-2 py-1 rounded-md bg-gray-100">
-          {OutputDetailsTestCases?.memory}
-        </span>
-      </p>
-      <p className="text-sm">
-        Time:{" "}
-        <span className="font-semibold px-2 py-1 rounded-md bg-gray-100">
-          {OutputDetailsTestCases?.time}s
+          {outputDetailsTestCases?.correctanswer}
         </span>
       </p>
     </div>
