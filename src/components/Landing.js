@@ -172,7 +172,9 @@ const Landing = () => {
         "X-RapidAPI-Key": "992ed725bbmsh9ce9dec42890424p1593ddjsn72a941758598",
       },
     };
-    try {      
+    try {
+      let response = await axios.request(options);      
+
       let expected_output = response.data.expected_output;
       let decodedExpectedOutput = atob(expected_output);  // datatype: string    
       setResult(decodedExpectedOutput);
@@ -186,9 +188,7 @@ const Landing = () => {
         console.log("Wrong Answer");
       }
       
-      let response = await axios.request(options);
       let statusId = response.data.status?.id;
-
       // Processed - we have a result
       if (statusId === 1 || statusId === 2) {
         // still processing
