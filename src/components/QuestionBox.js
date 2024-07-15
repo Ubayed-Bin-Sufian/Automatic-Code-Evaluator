@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { classnames } from "../utils/general";
 
-const QuestionBox = ({ question, setQuestion }) => {
+const QuestionBox = ({ question }) => {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -10,10 +10,6 @@ const QuestionBox = ({ question, setQuestion }) => {
     }
   }, [question]);
 
-  const handleInput = (e) => {
-    setQuestion(e.target.innerText);
-  };
-
   return (
     <div>
       <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
@@ -21,8 +17,6 @@ const QuestionBox = ({ question, setQuestion }) => {
       </h1>
 
       <div
-        contentEditable
-        onInput={handleInput}
         ref={divRef}
         placeholder="Question is displayed here !!!"
         className={classnames(
