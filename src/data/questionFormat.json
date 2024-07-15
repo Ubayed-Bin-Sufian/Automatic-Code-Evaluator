@@ -7,12 +7,12 @@
         "TestCases" : [
             {
                 "description": "Odd number of elements",
-                "input": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 4",
-                "expected_output": 6
+                "input": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 5 ",
+                "expected_output": 4
             },
             {
                 "description": "Odd number of elements",
-                "input": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 5",
+                "input": "[1, 2, 3, 4, 5, 6, 7, 8, 9] 4",
                 "expected_output": 4
             }
         ]

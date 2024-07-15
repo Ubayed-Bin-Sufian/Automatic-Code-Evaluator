@@ -14,14 +14,12 @@ import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
-import QuestionBox from "./QuestionBox";
 
 import { Routes, Route } from "react-router-dom";
-import Questions from "./Questions";
-// import TestCases from "./TestCases";
 import HintAnsSamplecode from "./HintAnsSamplecode";
 import OutputDetailsTestCases from "./OutputDetailsTestCases";
-
+import Questions from "./Questions";
+import QuestionBox from "./QuestionBox";
 import questionData from "../data/questionFormat.json"
 
 const javascriptDefault = `/**
@@ -73,8 +71,6 @@ process.stdin.on('data', function(input) {
         
        console.log( binarySearch(x,y))
 });
-
-
 `;
 
 const Landing = () => {
@@ -87,10 +83,6 @@ const Landing = () => {
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [question, setQuestion] = useState("");  // Variable to store question
-  const [expectedOutput, setExpectedOutput] = useState("")  // Variable to store expected_output
-
-  const [expectedOutput_json, setExpectedOutput_json] = useState("")  // Variable to store expected_output from JSON 
-  const [result, setResult] = useState("")
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -100,8 +92,9 @@ const Landing = () => {
     setLanguage(sl);
   };
   let testCaseJsonResult={
-    correctanswer:0,
     totaltestcases:0,
+    correcttestcases:0,
+    
   }
   useEffect(() => {
     if (enterPress && ctrlPress) {
@@ -121,20 +114,6 @@ const Landing = () => {
       }
     }
   };
-
-  //  initializes the customInput state with the input of the first test case 
-//   useEffect(() => {
-//     // Access the first question's test cases
-//     const testCases = questionData[0].TestCases;
-    
-//     // Set the value of customInput to the input of the first test case
-
-
-//     testCases.forEach(testCase => {
-//         console.log('Input (from JSON):', testCase.input);
-//         console.log('Expected_Output (from JSON):', testCase.expected_output)
-//     });
-// }, []);
   
 const handleCompile = () => {
   setProcessing(true);
@@ -184,7 +163,7 @@ const handleCompile = () => {
 const checkStatus = async (token) => {
   const options = {
     method: "GET",
-    url: "https://judge0-extra-ce.p.rapidapi.com/submissions" + "/" + token,
+    url: `https://judge0-extra-ce.p.rapidapi.com/submissions/${token}`,
     params: { base64_encoded: "true", fields: "*" },
     headers: {
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
@@ -215,46 +194,56 @@ const checkStatus = async (token) => {
     showErrorToast();
   }
 };
-const checkStatusCustomInput = async (token,expectedoutput) => {
+
+// Function to compare the output with an expected output
+const checkStatusCustomInput = async (token, expectedoutput) => {
   const options = {
     method: "GET",
-    url: "https://judge0-extra-ce.p.rapidapi.com/submissions" + "/" + token,
+    url: `https://judge0-extra-ce.p.rapidapi.com/submissions/${token}`,
     params: { base64_encoded: "true", fields: "*" },
     headers: {
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
       "X-RapidAPI-Key": "c652945428msh6a7968025ebb89bp12202cjsn087300a47178",
     },
   };
-  try {
-    let response = await axios.request(options);
-    let statusId = response.data.status?.id;
 
-    // Processed - we have a result
+  try {
+    let response = await axios.request(options);  // Make the API request
+    let statusId = response.data.status?.id;  // Extract the status ID
+
+    // Check if the submission is still processing
     if (statusId === 1 || statusId === 2) {
-      // still processing
+      // Still processing, check again after 2 seconds
       setTimeout(() => {
         checkStatusCustomInput(token);
       }, 2000);
       return;
     } else {
+      // Processing complete
       setProcessingTestCases(false);
-      console.log('answer',atob(response.data.stdout))
-      console.log('expectedOutput',expectedoutput)
-      if(atob(response.data.stdout) == expectedoutput){
-
-        console.log('correctanswer')
-    testCaseJsonResult.correctanswer++
+      console.log('Answer:',atob(response.data.stdout))  // Decode and log the output
+      console.log('Expected output:', expectedoutput)  // Log the expected output
+      
+      if (atob(response.data.stdout) == expectedoutput) {
+        // If the output matches the expected output, increment correct answers
+        console.log('Comparing compiled answer and expected output: CORRECT ANSWER')
+        testCaseJsonResult.correcttestcases++
+      } else {
+        console.log('Comparing compiled answer and expected output: WRONG ANSWER')
       }
      
-      console.log("response.data", response.data);
+      console.log("response.data", response.data);  // Log the full response data
       return;
     }
   } catch (err) {
+    // Handle errors
     console.log("err", err);
     setProcessingTestCases(false);
     showErrorToast();
   }
 };
+
+// compileCustomInput function sends source code along with custom input to the Judge0 API for compilation and execution, and then checks the result against the expected output.
 const compileCustomInput = async (providedInput, providedOutput) => {
   setProcessingTestCases(true);
 
@@ -300,21 +289,24 @@ const compileCustomInput = async (providedInput, providedOutput) => {
   }
 };
 
+// handleCompileTestCases function processes and compiles multiple test cases for a given question, checks the results, and updates the application state accordingly
 const handleCompileTestCases = async () => {
   setProcessingTestCases(true);
+
+  // Update total number of test cases
   testCaseJsonResult.totaltestcases = questionData[0].TestCases.length;
-  console.log('totaltestcases', questionData[0].TestCases.length);
-  console.log('totaltestcases2', testCaseJsonResult);
+  console.log('Total test cases:', questionData[0].TestCases.length);
+  console.log('Updated total test cases:', testCaseJsonResult);  // Logs the testCaseJsonResult object to confirm the update.
 
   const promises = questionData[0].TestCases.map(testCase => {
     const { input, expected_output: expectedOutput } = testCase;
-    console.log(input);
+    console.log("'input' from JSON:", input);
     return compileCustomInput(input, expectedOutput);
   });
 
   try {
     await Promise.all(promises);
-    showSuccessToast(`Test Cases Checked Successfully`);
+    showSuccessToast("Test Cases Checked Successfully");
   } catch (err) {
     console.error("Error compiling test cases:", err);
   } finally {
@@ -322,7 +314,6 @@ const handleCompileTestCases = async () => {
     setOutputDetailsTestCases(testCaseJsonResult);
   }
 };
-
   
   function handleThemeChange(th) {
     const theme = th;
@@ -438,19 +429,7 @@ const handleCompileTestCases = async () => {
               )}
             >
               {processingTestCases ? "Processing..." : "Submit"}
-            </button>
-
-            {/* Button for Hint AI added but needs configure with OpenAI */}
-            {/* <button
-              onClick={null}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Hint AI"}
-            </button> */}                       
+            </button>                      
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
           {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
