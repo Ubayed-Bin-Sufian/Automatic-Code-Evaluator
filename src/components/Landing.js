@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { defineTheme } from "../lib/defineTheme";
 import useKeyPress from "../hooks/useKeyPress";
 import OutputWindow from "./OutputWindow";
-import CustomInput from "./CustomInput";
+// import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
@@ -405,7 +405,7 @@ const handleCompileTestCases = async () => {
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <OutputWindow outputDetails={outputDetails} />          
-          <CustomInput />            
+          {/* <CustomInput />             */}
 
           <div className="flex flex-row space-x-3 justify-end">
             <button
