@@ -83,6 +83,7 @@ const Landing = () => {
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
   const [question, setQuestion] = useState("");  // Variable to store question
+  const [activeComponent, setActiveComponent] = useState(null);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -184,6 +185,7 @@ const checkStatus = async (token) => {
     } else {
       setProcessing(false);
       setOutputDetails(response.data);
+      setActiveComponent('outputDetails');
       showSuccessToast(`Compiled Successfully!`);
       console.log("response.data", response.data);
       return;
@@ -312,6 +314,7 @@ const handleCompileTestCases = async () => {
   } finally {
     setProcessingTestCases(false);
     setOutputDetailsTestCases(testCaseJsonResult);
+    setActiveComponent('outputTestCases');
   }
 };
   
@@ -431,8 +434,8 @@ const handleCompileTestCases = async () => {
               {processingTestCases ? "Processing..." : "Submit"}
             </button>                      
           </div>
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-          {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
+          {activeComponent === 'outputDetails' && outputDetails && <OutputDetails outputDetails={outputDetails} />}
+          {activeComponent === 'outputTestCases' && outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
         </div>
       </div>      
     </>
