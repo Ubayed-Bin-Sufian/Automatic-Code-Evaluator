@@ -11,7 +11,7 @@ import { defineTheme } from "../lib/defineTheme";
 import useKeyPress from "../hooks/useKeyPress";
 
 import OutputWindow from "./OutputWindow";
-// import CustomInput from "./CustomInput";
+import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
