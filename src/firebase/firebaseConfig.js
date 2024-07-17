@@ -3,9 +3,10 @@ import 'firebase/compat/firestore';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import 'firebase/compat/storage';
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCoypDyZbmiIzEMsiO3Z2eyfHE8CvWzNg4",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "codeevaluator.firebaseapp.com",
   projectId: "codeevaluator",
   storageBucket: "codeevaluator.appspot.com",
@@ -15,8 +16,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-// Initialize Firebase
 
+// Initialize Firebase
 export const auth = firebase.default.auth();
 // Get a reference to the database service
 export const database = firebase.database();
