@@ -9,13 +9,12 @@ const Form = () => {
   const [question, setQuestion] = useState('');
   const [code, setCode] = useState('');
   const [numTestCases, setNumTestCases] = useState('');
-  const[codingLanguage,setCodingLanguage] = useState('')
   const [testCases, setTestCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [documentId, setDocumentId] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [selectedLanguageIndex, setSelectedLanguageIndex] = useState('');
+  
   const handleGenerateTestCases = () => {
     const numCases = parseInt(numTestCases, 10);
     if (!isNaN(numCases) && numCases > 0) {
@@ -90,7 +89,7 @@ const Form = () => {
             onChange={(e) => setCode(e.target.value)}
             required
           />
- <FormControl variant="outlined" sx={{ mt: 2 }}>
+          <FormControl variant="outlined" sx={{ mt: 2 }}>
             <InputLabel id="language-label">Language</InputLabel>
             <Select
               labelId="language-label"

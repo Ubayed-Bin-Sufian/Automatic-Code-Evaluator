@@ -3,8 +3,8 @@ import Select from "react-select";
 import { customStyles } from "../constants/customStyles";
 import { languageOptions } from "../constants/languageOptions";
 
-const LanguagesDropdownCustom = ({ onSelectChange ,defaultValue}) => {
-  console.log("defaultValue",defaultValue)
+const LanguagesDropdownCustom = ({ onSelectChange, defaultValue}) => {
+  console.log("defaultValue", defaultValue)
   return (
     <Select
       placeholder={`Filter By Category`}

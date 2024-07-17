@@ -131,7 +131,7 @@ const Landing = () => {
   const checkStatus = async (token) => {
     const options = {
       method: "GET",
-      url: "https://judge0-extra-ce.p.rapidapi.com/submissions" + "/" + token,
+      url: `https://judge0-extra-ce.p.rapidapi.com/submissions/${token}`,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
@@ -214,9 +214,7 @@ const Landing = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
-
-      
+      />      
 
       <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
       <div className="flex flex-row">

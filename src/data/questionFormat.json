@@ -16,7 +16,7 @@
                 "expected_output": 4
             }
         ],
-        "ProgrammingLanguage":"Python"
+        "ProgrammingLanguage": "Python"
     },
     {
         "Question2" : "What is the mean (average) of the following set of numbers: 4, 8, 15, 16, 23, 42?",
