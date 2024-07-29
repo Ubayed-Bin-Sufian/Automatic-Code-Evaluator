@@ -6,14 +6,14 @@ import { db } from '../../firebase/firebaseConfig';
 import { languageOptions } from '../../constants/languageOptions'; // Adjust the import path as needed
 
 const Form = () => {
-  const [question, setQuestion] = useState('');
-  const [code, setCode] = useState('');
-  const [numTestCases, setNumTestCases] = useState('');
-  const [testCases, setTestCases] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [documentId, setDocumentId] = useState(null);
-  const [selectedLanguageIndex, setSelectedLanguageIndex] = useState('');
+  const [question, setQuestion] = useState('');  // Holds the user's input for the coding question
+  const [code, setCode] = useState('');  // Holds the initial code snippet provided by the user
+  const [numTestCases, setNumTestCases] = useState('');  // Stores the number of test cases the user wants to create
+  const [testCases, setTestCases] = useState([]);  // An array of objects, each containing input and output for each test case
+  const [loading, setLoading] = useState(false);  // A boolean to indicate whether the form is in the process of being submitted
+  const [submitted, setSubmitted] = useState(false);  // A boolean to indicate whether the form has been successfully submitted
+  const [documentId, setDocumentId] = useState(null);  // Stores the ID of the newly created document in Firestore
+  const [selectedLanguageIndex, setSelectedLanguageIndex] = useState('');  // Stores the index of the selected programming language from the dropdown
   
   const handleGenerateTestCases = () => {
     const numCases = parseInt(numTestCases, 10);
