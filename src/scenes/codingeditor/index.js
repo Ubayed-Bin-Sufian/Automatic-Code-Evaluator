@@ -213,7 +213,7 @@ const fetchDocumentData = async (documentId) => {
         setProcessingTestCases(false);
 
         let decodedOutput = atob(response.data.stdout).replace(/\s+/g, '');
-        let cleanedExpectedOutput = expectedoutput.replace(/\s+/g, '');
+        let cleanedExpectedOutput = (expectedoutput || '').replace(/\s+/g, '');
     
         if (decodedOutput === cleanedExpectedOutput) {
             console.log('I am in');
@@ -297,7 +297,7 @@ const fetchDocumentData = async (documentId) => {
   const handleCompileTestCases = async () => {
     setProcessingTestCases(true);
 
-    testCaseJsonResult.totaltestcases = testCases.length();
+    testCaseJsonResult.totaltestcases = testCases.length;
     
     const promises = testCases.map(testCase => {
       const { input, output: expectedOutput } = testCase;
