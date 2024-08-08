@@ -147,7 +147,7 @@ const Form = () => {
           {submitted && (
             <Box sx={{ mt: 2 }}>
               <Typography variant="body1">Your question has been submitted successfully!</Typography>
-              <Link href="#" variant="body2">Click here to view your question</Link>
+              <Link href={`https://automatic-code-evaluator.vercel.app/question/${documentId}`} variant="body2">Click here to view your question</Link>
             </Box>
           )}
         </Box>
