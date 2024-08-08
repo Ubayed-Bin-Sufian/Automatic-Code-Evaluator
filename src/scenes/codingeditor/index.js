@@ -24,6 +24,7 @@ const Coding = () => {
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
+  const [processingHint, setProcessingHint] = useState(null);
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
   const [theme, setTheme] = useState("cobalt");
@@ -401,6 +402,18 @@ const fetchDocumentData = async (documentId) => {
           <OutputWindow outputDetails={outputDetails} />          
           <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
           <div className="flex flex-row space-x-3 justify-end">
+            {/*Button for Hint*/}
+            <button
+              onClick={handleCompile}
+              disabled={!code}
+              className={classnames(
+                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              {processingHint ? "Processing..." : "Hint"}
+            </button>
+
             <button
               onClick={handleCompile}
               disabled={!code}
