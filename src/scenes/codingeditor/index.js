@@ -17,6 +17,7 @@ import { db } from '../../firebase/firebaseConfig';
 import { useParams } from 'react-router-dom';
 import QuestionCustom from "../../components/QuestionCustom";
 import LanguagesDropdownCustom from "../../components/LanguagesDropdownCustom";
+import HintChatGPT from "../../components/ChatGPT"
 
 const Coding = () => {
   const { questionId } = useParams();
@@ -39,6 +40,9 @@ const Coding = () => {
   const [testCases, setTestCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('');
+
+  const [userQuestion, setUserQuestion] = useState('');
+  const [hint, setHint] = useState('');
   
   useEffect(() => {
     if (questionId) {
@@ -316,6 +320,11 @@ const fetchDocumentData = async (documentId) => {
       setOutputDetailsTestCases(testCaseJsonResult);
     }
   };
+
+  const handleGetHint = async () => {
+    const generatedHint = await HintChatGPT(userQuestion);
+    setHint(generatedHint);
+  };
   
   function handleThemeChange(th) {
     const theme = th;
@@ -402,9 +411,15 @@ const fetchDocumentData = async (documentId) => {
           <OutputWindow outputDetails={outputDetails} />          
           <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
           <div className="flex flex-row space-x-3 justify-end">
+            <input
+                type="text"
+                value={userQuestion}
+                onChange={(e) => setUserQuestion(e.target.value)}
+                placeholder="Enter your question"
+            />
             {/*Button for Hint*/}
             <button
-              onClick={handleCompile}
+              onClick={handleGetHint}
               disabled={!code}
               className={classnames(
                 "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
@@ -412,7 +427,11 @@ const fetchDocumentData = async (documentId) => {
               )}
             >
               {processingHint ? "Processing..." : "Hint"}
-            </button>
+            </button>            
+            <div>
+                <h3>Hint:</h3>
+                <p>{hint}</p>
+            </div>
 
             <button
               onClick={handleCompile}
