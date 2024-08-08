@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const openaiApiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
-const ChatGPT = async (question) => {
-    const prompt = `Question: ${question}\nProvide a hint:`;
+const ChatGPT = async (userQuestion) => {
+    const prompt = `Question: ${userQuestion}\nProvide a hint:`;
 
     try {
         const response = await axios.post(
@@ -28,7 +28,6 @@ const ChatGPT = async (question) => {
         const hint = response.data.choices[0].message.content;
         console.log(response)
         console.log(response.choices[0])
-        console.log(json.dumps(json.loads(response.model_dump_json()), indent=4))
         return hint;
 
     } catch (error) {
