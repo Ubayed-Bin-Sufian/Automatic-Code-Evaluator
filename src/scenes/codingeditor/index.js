@@ -381,7 +381,7 @@ const fetchDocumentData = async (documentId) => {
         </div>        
       </div>
 
-      <div className="px-4 py-4">         
+      <div className="px-4 py-1">         
          <QuestionCustom question={question}/> 
       </div>
 

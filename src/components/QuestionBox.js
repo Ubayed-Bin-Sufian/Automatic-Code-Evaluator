@@ -22,7 +22,7 @@ const QuestionBox = ({ question }) => {
         className={classnames(
           "focus:outline-none w-200 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white mt-2"
         )}
-        style={{ minHeight: "2em", maxHeight: "4em", overflowY: "auto" }}
+        style={{ minHeight: "2em", maxHeight: "6em", overflowY: "auto" }}
       ></div>
     </div>
   );
