@@ -126,8 +126,7 @@ const Coding = () => {
     setProcessing(true);
     const formData = {
       language_id: language.id,
-      // encode source code in base64
-      source_code: btoa(code),
+      source_code: btoa(code),  // encode source code in base64
       stdin: btoa(customInput),
     };
     const options = {
@@ -151,9 +150,8 @@ const Coding = () => {
         checkStatus(token);
       })
       .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        // get error status
-        let status = err.response.status;
+        let error = err.response ? err.response.data : err;        
+        let status = err.response.status;  // get error status
         console.log("status", status);
         if (status === 429) {
           console.log("too many requests", status);
@@ -295,8 +293,7 @@ const Coding = () => {
       await checkStatusCustomInput(token, providedOutput);
     } catch (err) {
       let error = err.response ? err.response.data : err;
-      // get error status
-      let status = err.response ? err.response.status : "Unknown";
+      let status = err.response ? err.response.status : "Unknown";  // get error status
       console.log("status", status);
       if (status === 429) {
         console.log("too many requests", status);
@@ -413,7 +410,7 @@ const Coding = () => {
               {processing ? "Processing..." : "Run"}
             </button>
 
-            {/* Button for Test Case added but needs comparison with output */}
+            {/* Button for comparing Test Cases with output */}
             <button
               onClick={handleCompileTestCases}
               disabled={!code}
