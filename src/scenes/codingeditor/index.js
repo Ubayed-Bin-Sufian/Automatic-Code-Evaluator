@@ -38,6 +38,7 @@ const Coding = () => {
   const [testCases, setTestCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [activeComponent, setActiveComponent] = useState(null);
   
   useEffect(() => {
     if (questionId) {
@@ -175,6 +176,7 @@ const fetchDocumentData = async (documentId) => {
       } else {
         setProcessing(false);
         setOutputDetails(response.data);
+        setActiveComponent('outputDetails');
         showSuccessToast(`Compiled Successfully!`);
         console.log("response.data", response.data);
         return;
@@ -313,6 +315,7 @@ const fetchDocumentData = async (documentId) => {
     } finally {
       setProcessingTestCases(false);
       setOutputDetailsTestCases(testCaseJsonResult);
+      setActiveComponent('outputTestCases');
     }
   };
   
@@ -424,8 +427,8 @@ const fetchDocumentData = async (documentId) => {
               {processingTestCases ? "Processing..." : "Submit"}
             </button>                      
           </div>
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-          {outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
+          {activeComponent === 'outputDetails' && outputDetails && <OutputDetails outputDetails={outputDetails} />}
+          {activeComponent === 'outputTestCases' && outputDetailsTestCases && <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} />}
         </div>
       </div>      
     </>
