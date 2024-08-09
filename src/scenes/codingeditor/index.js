@@ -1,60 +1,64 @@
-import React, { useEffect, useState } from "react";
-import CodeEditorWindow from "../../components/CodeEditorWindow";
-import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 import { classnames } from "../../utils/general";
+import { db } from '../../firebase/firebaseConfig';
+import { defineTheme } from "../../lib/defineTheme";
+import { doc, getDoc } from 'firebase/firestore';
 import { languageOptions } from "../../constants/languageOptions";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { defineTheme } from "../../lib/defineTheme";
-import useKeyPress from "../../hooks/useKeyPress";
-import OutputWindow from "../../components/OutputWindow";
-import CustomInput from "../../components/CustomInput";
-import OutputDetails from "../../components/OutputDetails";
-import ThemeDropdown from "../../components/ThemeDropdown";
-import OutputDetailsTestCases from "../../components/OutputDetailsTestCases";
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
 import { useParams } from 'react-router-dom';
-import QuestionCustom from "../../components/QuestionCustom";
+import axios from "axios";
+import CodeEditorWindow from "../../components/CodeEditorWindow";
+import CustomInput from "../../components/CustomInput";
 import LanguagesDropdownCustom from "../../components/LanguagesDropdownCustom";
+import OutputDetails from "../../components/OutputDetails";
+import OutputDetailsTestCases from "../../components/OutputDetailsTestCases";
+import OutputWindow from "../../components/OutputWindow";
+import QuestionCustom from "../../components/QuestionCustom";
+import React, { useEffect, useState } from "react";
+import ThemeDropdown from "../../components/ThemeDropdown";
+import useKeyPress from "../../hooks/useKeyPress";
 
 const Coding = () => {
   const { questionId } = useParams();
-
+  const [activeComponent, setActiveComponent] = useState(null);
+  const [code, setCode] = useState("");
   const [customInput, setCustomInput] = useState("");
+  const [language, setLanguage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [numTestCases, setNumTestCases] = useState('');
   const [outputDetails, setOutputDetails] = useState(null);
   const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
-  const [theme, setTheme] = useState("cobalt");
-  const [language, setLanguage] = useState("");
-
-  const enterPress = useKeyPress("Enter");
-  const ctrlPress = useKeyPress("Control");
-
-  const [code, setCode] = useState("");
-  const [question, setQuestion] = useState("");  
-  const [numTestCases, setNumTestCases] = useState('');
-  const [testCases, setTestCases] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [question, setQuestion] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState('');
-  const [activeComponent, setActiveComponent] = useState(null);
-  
-  useEffect(() => {
-    if (questionId) {
-      fetchDocumentData(questionId);
-    }
-  }, [questionId]);
+  const [testCases, setTestCases] = useState([]);
+  const [theme, setTheme] = useState("cobalt");
 
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
   };
+    
+  function handleThemeChange(th) {
+    const theme = th;
+    console.log("theme...", theme);
 
-  let testCaseJsonResult={
-    correctanswer:0,
-    totaltestcases:0,
+    if (["light", "vs-dark"].includes(theme.value)) {
+      setTheme(theme);
+    } else {
+      defineTheme(theme.value).then((_) => setTheme(theme));
+    }
   }
+
+  useEffect(() => {
+    defineTheme("oceanic-next").then((_) =>
+      setTheme({ value: "oceanic-next", label: "Oceanic Next" })
+    );
+  }, []);
+
+  const enterPress = useKeyPress("Enter");
+  const ctrlPress = useKeyPress("Control");
 
   useEffect(() => {
     if (enterPress && ctrlPress) {
@@ -75,44 +79,54 @@ const Coding = () => {
       }
     }
   };
-
-const fetchDocumentData = async (documentId) => {
-  setLoading(true);
-  try {
-    const docRef = doc(db, 'CodingQuestions', documentId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      console.log(data)
-      setQuestion(data.question);
-
-      setCode(data.code);
-      setTestCases(data.testCases);
-      console.log("testCases", testCases)
-      setCustomInput(data.testCases[0].input)
-      setSelectedLanguage(data.selectedLanguage || '');
-      setLanguage(languageOptions[data.selectedLanguage]);
-      console.log(languageOptions[selectedLanguage])
-      console.log("language",language)
-      setNumTestCases(data.testCases.length.toString());
-    } else {
-      console.log("No such document!");
-    }
-
-    setLoading(false);
-  } catch (error) {
-    console.error("Error fetching document: ", error);
-    setLoading(false);
+  
+  let testCaseJsonResult={
+    correctanswer:0,
+    totaltestcases:0,
   }
-};
+  
+  useEffect(() => {
+    if (questionId) {
+      fetchDocumentData(questionId);
+    }
+  }, [questionId]);
+
+  const fetchDocumentData = async (documentId) => {
+    setLoading(true);
+    try {
+      const docRef = doc(db, 'CodingQuestions', documentId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log(data)
+        setQuestion(data.question);
+
+        setCode(data.code);
+        setTestCases(data.testCases);
+        console.log("testCases", testCases)
+        setCustomInput(data.testCases[0].input)
+        setSelectedLanguage(data.selectedLanguage || '');
+        setLanguage(languageOptions[data.selectedLanguage]);
+        console.log(languageOptions[selectedLanguage])
+        console.log("language",language)
+        setNumTestCases(data.testCases.length.toString());
+      } else {
+        console.log("No such document!");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+      setLoading(false);
+    }
+  };
   
   const handleCompile = () => {
     setProcessing(true);
     const formData = {
       language_id: language.id,
-      // encode source code in base64
-      source_code: btoa(code),
+      source_code: btoa(code),  // encode source code in base64
       stdin: btoa(customInput),
     };
     const options = {
@@ -136,9 +150,8 @@ const fetchDocumentData = async (documentId) => {
         checkStatus(token);
       })
       .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        // get error status
-        let status = err.response.status;
+        let error = err.response ? err.response.data : err;        
+        let status = err.response.status;  // get error status
         console.log("status", status);
         if (status === 429) {
           console.log("too many requests", status);
@@ -280,8 +293,7 @@ const fetchDocumentData = async (documentId) => {
       await checkStatusCustomInput(token, providedOutput);
     } catch (err) {
       let error = err.response ? err.response.data : err;
-      // get error status
-      let status = err.response ? err.response.status : "Unknown";
+      let status = err.response ? err.response.status : "Unknown";  // get error status
       console.log("status", status);
       if (status === 429) {
         console.log("too many requests", status);
@@ -318,23 +330,6 @@ const fetchDocumentData = async (documentId) => {
       setActiveComponent('outputTestCases');
     }
   };
-  
-  function handleThemeChange(th) {
-    const theme = th;
-    console.log("theme...", theme);
-
-    if (["light", "vs-dark"].includes(theme.value)) {
-      setTheme(theme);
-    } else {
-      defineTheme(theme.value).then((_) => setTheme(theme));
-    }
-  }
-
-  useEffect(() => {
-    defineTheme("oceanic-next").then((_) =>
-      setTheme({ value: "oceanic-next", label: "Oceanic Next" })
-    );
-  }, []);
 
   const showSuccessToast = (msg) => {
     toast.success(msg || `Compiled Successfully!`, {
@@ -415,7 +410,7 @@ const fetchDocumentData = async (documentId) => {
               {processing ? "Processing..." : "Run"}
             </button>
 
-            {/* Button for Test Case added but needs comparison with output */}
+            {/* Button for comparing Test Cases with output */}
             <button
               onClick={handleCompileTestCases}
               disabled={!code}
