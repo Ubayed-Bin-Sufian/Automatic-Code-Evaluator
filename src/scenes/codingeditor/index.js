@@ -18,7 +18,6 @@ import React, { useEffect, useState } from "react";
 import ThemeDropdown from "../../components/ThemeDropdown";
 import useKeyPress from "../../hooks/useKeyPress";
 import Popup from "../../components/Popup";
-
 const Coding = () => {
   const { questionId } = useParams();
   const [activeComponent, setActiveComponent] = useState(null);
@@ -35,7 +34,7 @@ const Coding = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [testCases, setTestCases] = useState([]);
   const [theme, setTheme] = useState("cobalt");
-  const [answertest,setAnswerTest] = useState()
+  const[answertest,setAnswerTest]=useState()
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hint, setHint] = useState("");
@@ -53,9 +52,8 @@ const Coding = () => {
       setIsLoading(false);
     }
   };
-
   const fetchHintFromChatGPT = async (code) => {
-    const apiKey = process.env.OPENAI_API_KEY; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
     const apiUrl = "https://api.openai.com/v1/chat/completions";
   
     try {
@@ -70,7 +68,7 @@ const Coding = () => {
             },
             {
               role: "user",
-              content: `Provide a hint for the following code:\n\n${code} for following question :\n\n${question} and don't evaluate the following function for the hint process_input_and_call_function , hint should not be more than 3 lines`,
+              content: `Provide a hint for the following code:\n\n${code} for following question :\n\n${question} and don't evaluate the following function for the hint process_input_and_call_function , HINT should not be more than 3 lines`,
             },
           ],
           max_tokens: 100,
@@ -95,7 +93,6 @@ const Coding = () => {
     setIsPopupOpen(false);
     setHint("");
   };
-
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
@@ -282,22 +279,22 @@ const Coding = () => {
       if (statusId === 1 || statusId === 2) {
         // Still processing, check again after 2 seconds
         setTimeout(() => {
-          checkStatusCustomInput(token, expectedoutput);
+          checkStatusCustomInput(token,expectedoutput);
         }, 2000);
         return;
       } else {
         setProcessingTestCases(false);
 
         let decodedOutput = atob(response.data.stdout).replace(/\s+/g, '');
-        console.log("before checking", expectedoutput)
-        let cleanedExpectedOutput = (expectedoutput || "")
+        console.log("before checking",expectedoutput)
+        let cleanedExpectedOutput = (expectedoutput ||"")
     
         if (decodedOutput == cleanedExpectedOutput) {
             console.log('I am in');
             console.log('correctanswer');
             testCaseJsonResult.correctanswer++;
             setAnswerTest(testCaseJsonResult.correctanswer)
-            console.log("testCaseJsonResult", testCaseJsonResult)
+            console.log("testCaseJsonResult",testCaseJsonResult)
         } else {
             console.log('Outputs do not match');
             console.log('Expected:', cleanedExpectedOutput);
@@ -422,101 +419,107 @@ const Coding = () => {
   };
 
   return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+<>
+  <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+  />
+  
+  <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+  <div className="flex flex-row justify-between">
+    <div className="flex flex-row">
+      <div className="px-4 py-2">
+      {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
+      </div>
+      <div className="px-4 py-2">
+        <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
+      </div>
       
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
-
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row">
-          <div className="px-4 py-2">
-            {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
-          </div>
-          <div className="px-4 py-2">
-            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-          </div>          
-        </div>
-        <button
-          onClick={handlePopup}
-          disabled={!code}
-          className={classnames(
-            "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-            !code ? "opacity-50" : ""
-          )}
-        >
-          Hint AI
-        </button>
-        <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading}>
-          <p>{hint}</p>
-        </Popup>
-      </div>
-
-      <div className="flex flex-row px-4 py-4 space-x-4">
-        {/* Left Side: QuestionCustom */}
-        <div className="w-1/2">
-          <QuestionCustom question={question} />
-        </div>
-
-        {/* Right Side: CodeEditorWindow and OutputWindow */}
-        <div className="w-1/2 flex flex-col space-y-4 mt-9">
-          {language && (
-            <CodeEditorWindow
-              code={code}
-              onChange={onChange}
-              language={language?.value}
-              theme={theme.value}
-            />
-          )}
-
-          <div className="right-container flex flex-col">
-            <div className="flex flex-row space-x-3 justify-end">
-              <button
-                onClick={handleCompile}
-                disabled={!code}
-                className={classnames(
-                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                  !code ? "opacity-50" : ""
-                )}
-              >
-                {processing ? "Processing..." : "Run"}
-              </button>
-
-              {/* Button for comparing Test Cases with output */}
-              <button
-                onClick={handleCompileTestCases}
-                disabled={!code}
-                className={classnames(
-                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                  !code ? "opacity-50" : ""
-                )}
-              >
-                {processingTestCases ? "Processing..." : "Submit"}
-              </button>
-            </div>
-            <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
-            <OutputWindow outputDetails={outputDetails} />
-            
-            {/* Conditional rendering of output details */}
-            {activeComponent === 'outputDetails' && outputDetails && (
-              <OutputDetails outputDetails={outputDetails} />
+    </div>
+    <button
+            onClick={handlePopup}
+            disabled={!code}
+            className={classnames(
+              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
             )}
-            {activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-              <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+          >
+            Hint AI
+          </button>
+          <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
+        <p>{hint}</p>
+      </Popup>
+  </div>
+
+
+  <div className="flex flex-row px-4 py-4 space-x-4">
+    {/* Left Side: QuestionCustom */}
+    <div className="w-1/2">
+      <QuestionCustom question={question} />
+    </div>
+
+    {/* Right Side: CodeEditorWindow and OutputWindow */}
+    <div className="w-1/2 flex flex-col space-y-4 mt-9">
+      {language && (
+        <CodeEditorWindow
+          code={code}
+          onChange={onChange}
+          language={language?.value}
+          theme={theme.value}
+        />
+      )}
+
+      <div className="right-container flex flex-col">
+      <div className="flex flex-row space-x-3 justify-end">
+          <button
+            onClick={handleCompile}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
             )}
-          </div>
+          >
+            {processing ? "Processing..." : "Run"}
+          </button>
+
+          {/* Button for comparing Test Cases with output */}
+          <button
+            onClick={handleCompileTestCases}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            {processingTestCases ? "Processing..." : "Submit"}
+          </button>
         </div>
+        <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
+        <OutputWindow outputDetails={outputDetails} /> 
+
+        
+
+
+        
+        {/* Conditional rendering of output details */}
+        {activeComponent === 'outputDetails' && outputDetails && (
+          <OutputDetails outputDetails={outputDetails} />
+        )}
+        {activeComponent === 'outputTestCases' && outputDetailsTestCases && (
+          <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+        )}
       </div>
-    </>
+    </div>
+  </div>
+</>
+
   );
 };
 
