@@ -1,7 +1,7 @@
 import React from "react";
 
 const OutputDetailsTestCases = ({ outputDetailsTestCases, correctanswer }) => {
-  console.log('Output:',outputDetailsTestCases)
+  console.log('Output:', outputDetailsTestCases)
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
       <p className="text-sm">

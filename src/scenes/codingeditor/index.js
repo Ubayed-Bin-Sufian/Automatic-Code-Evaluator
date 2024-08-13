@@ -55,7 +55,7 @@ const Coding = () => {
   };
 
   const fetchHintFromChatGPT = async (code) => {
-    const apiKey = process.env.OPENAI_API_KEY; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
     const apiUrl = "https://api.openai.com/v1/chat/completions";
   
     try {
