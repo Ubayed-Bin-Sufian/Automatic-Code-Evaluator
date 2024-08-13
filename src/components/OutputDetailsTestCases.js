@@ -22,6 +22,10 @@ const OutputDetailsTestCases = ({ outputDetailsTestCases, correctanswer }) => {
     setIsPopupOpen(false);
   };
 
+
+const OutputDetailsTestCases = ({ outputDetailsTestCases, correctanswer }) => {
+  console.log('Output:',outputDetailsTestCases)
+
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
       <p className="text-sm">
