@@ -55,7 +55,7 @@ const Coding = () => {
   };
 
   const fetchHintFromChatGPT = async (code) => {
-    const apiKey = process.env.OPENAI_API_KEY; // Replace with your actual API key
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
     const apiUrl = "https://api.openai.com/v1/chat/completions";
   
     try {
@@ -435,16 +435,66 @@ const Coding = () => {
         pauseOnHover
       />
       
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
 
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row">
-          <div className="px-4 py-2">
-            {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
-          </div>
-          <div className="px-4 py-2">
-            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-          </div>          
+    </div>
+    <button
+            onClick={handlePopup}
+            disabled={!code}
+            className={classnames(
+              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            Hint AI
+          </button>
+          <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
+        <p>{hint}</p>
+      </Popup>
+  </div>
+
+
+  <div className="flex flex-row px-4 py-4 space-x-4">
+    {/* Left Side: QuestionCustom */}
+    <div className="w-1/2">
+      <QuestionCustom question={question} />
+    </div>
+
+    {/* Right Side: CodeEditorWindow and OutputWindow */}
+    <div className="w-1/2 flex flex-col space-y-4 mt-9">
+      {language && (
+        <CodeEditorWindow
+          code={code}
+          onChange={onChange}
+          language={language?.value}
+          theme={theme.value}
+        />
+      )}
+
+      <div className="right-container flex flex-col">
+      <div className="flex flex-row space-x-3 justify-end">
+          <button
+            onClick={handleCompile}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            {processing ? "Processing..." : "Run"}
+          </button>
+
+          {/* Button for comparing Test Cases with output */}
+          <button
+            onClick={handleCompileTestCases}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            {processingTestCases ? "Processing..." : "Submit"}
+          </button>
+
         </div>
         <button
           onClick={handlePopup}
