@@ -15,6 +15,7 @@ import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
+import QuestionBox from "./QuestionBox";
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -203,61 +204,73 @@ const Landing = () => {
   };
 
   return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />      
+ <>
+  <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+  />      
 
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
-      <div className="flex flex-row">
-        <div className="px-4 py-2">
-          <LanguagesDropdown onSelectChange={onSelectChange} />
-        </div>
-        <div className="px-4 py-2">
-          <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-        </div>
+  <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+  
+  <div className="flex flex-row justify-between">
+    <div className="flex flex-row">
+      <div className="px-4 py-2">
+        <LanguagesDropdown onSelectChange={onSelectChange} />
       </div>
-      <div className="flex flex-row space-x-4 items-start px-4 py-4">
-        <div className="flex flex-col w-full h-full justify-start items-end">
-          <CodeEditorWindow
-            code={code}
-            onChange={onChange}
-            language={language?.value}
-            theme={theme.value}
+      <div className="px-4 py-2">
+        <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
+      </div>
+      
+    </div>
+    <button
+            onClick={handleCompile}
+            disabled={!code}
+            className={classnames(
+              "mr mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            {processing ? "Processing..." : "Compile and Execute"}
+          </button>
+  </div>
+  
+  <div className="flex flex-row px-4 py-4 space-x-4">
+    {/* Left Side: QuestionBox */}
+    <div className="w-1/2">
+      <QuestionBox question={javascriptDefault} />
+    </div>
+
+    {/* Right Side: CodeEditorWindow and OutputWindow */}
+    <div className="flex flex-col w-1/2 space-y-4">
+      <CodeEditorWindow
+        code={code}
+        onChange={onChange}
+        language={language?.value}
+        theme={theme.value}
+      />
+
+      <div className="right-container flex flex-col">
+        <OutputWindow outputDetails={outputDetails} />
+        <div className="flex flex-col items-end">
+          <CustomInput
+            customInput={customInput}
+            setCustomInput={setCustomInput}
           />
+         
         </div>
-
-        <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
-          <OutputWindow outputDetails={outputDetails} />
-          <div className="flex flex-col items-end">
-            <CustomInput
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            />
-            <button
-              onClick={handleCompile}
-              disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
-            >
-              {processing ? "Processing..." : "Compile and Execute"}
-            </button>
-          </div>
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-        </div>
+        {outputDetails && <OutputDetails outputDetails={outputDetails} />}
       </div>
+    </div>
+  </div>
+</>
 
-    </>
   );
 };
 export default Landing;

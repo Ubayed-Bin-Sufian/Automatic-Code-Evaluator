@@ -1,6 +1,6 @@
 import React from "react";
 
-const OutputDetailsTestCases = ({ outputDetailsTestCases }) => {
+const OutputDetailsTestCases = ({ outputDetailsTestCases,correctanswer }) => {
   console.log('Output:',outputDetailsTestCases)
   return (
     <div className="metrics-container mt-4 flex flex-col space-y-3">
@@ -15,7 +15,7 @@ const OutputDetailsTestCases = ({ outputDetailsTestCases }) => {
       <p className="text-sm">
         Correct Test Cases:{" "}
         <span className="font-semibold text-green-500 px-2 py-1 rounded-md bg-gray-100">
-          {outputDetailsTestCases?.correcttestcases}
+          {correctanswer}
         </span>
       </p>
     </div>
