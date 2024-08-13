@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import { UserContext } from '../../lib/context'
 import { signIn } from '../../lib/auth'
 import { useNavigate } from 'react-router-dom';
-const GoogleLoginSignup = () => {
+const Login = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -37,4 +37,4 @@ const GoogleLoginSignup = () => {
   );
 };
 
-export default GoogleLoginSignup;
+export default Login;
