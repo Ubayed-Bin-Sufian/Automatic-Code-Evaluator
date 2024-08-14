@@ -39,7 +39,7 @@ const mockData = [
     icon: <FaGithub className="text-black-500 text-4xl" />,
     title: "Git Github MasterClass",
     description: "Mastering Git and GitHub Fundamentals",
-    tutorial:'https://flyvidesh.online/courses/git-github-masterclass/'
+    tutorial:'https://flyvidesh.online/courses/github-masterclass/'
   },
   {
     id: 6,
