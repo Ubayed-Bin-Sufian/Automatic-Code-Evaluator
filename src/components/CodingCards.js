@@ -39,7 +39,7 @@ const mockData = [
     icon: <FaGithub className="text-black-500 text-4xl" />,
     title: "Git Github MasterClass",
     description: "Mastering Git and GitHub Fundamentals",
-    tutorial:'https://flyvidesh.online/courses/github-masterclass/'
+    tutorial:'https://flyvidesh.online/courses/github-masterclass/  '
   },
   {
     id: 6,
@@ -66,9 +66,12 @@ const CodingCards = () => {
         </div>
         <p className="text-gray-700 text-lg mb-8">{card.description}</p>
       </div>
-      <button className="mt-auto px-6 py-3 text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition duration-300">
-        Get Started
-      </button>
+      
+      <a href={card.tutorial} className="w-full">
+        <button className="w-full mt-auto px-6 py-3 text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition duration-300">
+          Get Started
+        </button>
+      </a>
     </div>
   ))}
 </div>
