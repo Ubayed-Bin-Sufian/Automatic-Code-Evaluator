@@ -1,43 +1,52 @@
 import React from "react";
 import { FaPython, FaJs, FaJava } from "react-icons/fa"; // Import icons for different languages
-
-
+import { FaRProject } from "react-icons/fa";
+import { TbBoxModel } from "react-icons/tb";
+import { HiAdjustments } from "react-icons/hi";
+import { FaGithub } from "react-icons/fa";
+import { FaRobot } from "react-icons/fa";
 const mockData = [
   {
     id: 1,
     icon: <FaPython className="text-blue-500 text-4xl" />,
-    title: "Learn Python",
+    title: "Learn Python and Data Structure",
     description: "Master Python with interactive lessons and challenges.",
+    tutorial:"https://www.youtube.com/playlist?list=PLPTV0NXA_ZSgHj4a9CE1KLSarhkjocecO"
   },
   {
     id: 2,
-    icon: <FaJs className="text-yellow-500 text-4xl" />,
-    title: "JavaScript Essentials",
-    description: "Learn the fundamentals of JavaScript, the language of the web.",
+    icon: <TbBoxModel className="text-yellow-500 text-4xl" />,
+    title: "Neural Network form scratch",
+    description: "Learn the fundamentals of NNFS and build NNFS from scratch.",
+    tutorial:"https://flyvidesh.online/courses/nnfs-neural-network-from-scratch/"
   },
   {
     id: 3,
-    icon: <FaJava className="text-red-500 text-4xl" />,
-    title: "Java for Beginners",
-    description: "Get started with Java and build your first applications.",
+    icon: <HiAdjustments className="text-red-500 text-4xl" />,
+    title: "Transformer",
+    description: "Exploring Transformer Models Architecture.",
+    tutorial:"https://www.youtube.com/playlist?list=PLPTV0NXA_ZSjs5Dz7FfPCzV3BKC7CtJU1"
   },
   {
     id: 4,
-    icon: <FaPython className="text-blue-500 text-4xl" />,
-    title: "Advanced Python",
-    description: "Take your Python skills to the next level with advanced concepts.",
+    icon: <FaRProject className="text-blue-500 text-4xl" />,
+    title: "R MasterClass",
+    description: "Take your R skills to the next level with .",
+    tutorial:"https://www.youtube.com/playlist?list=PLPTV0NXA_ZSijzVRPXpKen9lM6ol1CTJe"
   },
   {
     id: 5,
-    icon: <FaJs className="text-yellow-500 text-4xl" />,
-    title: "JavaScript Frameworks",
-    description: "Explore popular JavaScript frameworks like React and Angular.",
+    icon: <FaGithub className="text-black-500 text-4xl" />,
+    title: "Git Github MasterClass",
+    description: "Mastering Git and GitHub Fundamentals",
+    tutorial:'https://flyvidesh.online/courses/git-github-masterclass/'
   },
   {
     id: 6,
-    icon: <FaJava className="text-red-500 text-4xl" />,
-    title: "Java Enterprise",
-    description: "Learn about Java in enterprise applications.",
+    icon: <FaRobot className="text-purple-500 text-4xl" />,
+    title: "AI Research Bootcamp",
+    description: "AI Research Bootcamp for beginners",
+    tutorial:'https://www.youtube.com/playlist?list=PLPTV0NXA_ZSggVHqwnOq3rk9NeE1Fi8bx'
   },
 ];
 
