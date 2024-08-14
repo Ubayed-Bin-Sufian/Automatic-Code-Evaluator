@@ -5,7 +5,7 @@ import { defineTheme } from "../../lib/defineTheme";
 import { doc, getDoc } from 'firebase/firestore';
 import { languageOptions } from "../../constants/languageOptions";
 import { ToastContainer, toast } from "react-toastify";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import CustomInput from "../../components/CustomInput";
@@ -38,10 +38,19 @@ const Coding = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hint, setHint] = useState("");
+  const [showComponent, setShowComponent] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowComponent(true);
+    }, 1000); // 1000 milliseconds = 1 second
 
+    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+  }, []);
   const handlePopup = async () => {
     setIsPopupOpen(true);
     setIsLoading(true);
+   
+
 
     try {
       const response = await fetchHintFromChatGPT(code);
@@ -60,7 +69,7 @@ const Coding = () => {
       const response = await axios.post(
         apiUrl,
         {
-          model: "gpt-4",
+          model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
@@ -443,6 +452,7 @@ const Coding = () => {
       </div>
       
     </div>
+    <div>
     <button
             onClick={handlePopup}
             disabled={!code}
@@ -453,11 +463,26 @@ const Coding = () => {
           >
             Hint AI
           </button>
-          <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
+          <Link to="/compete">
+          <button
+            onClick={handlePopup}
+            disabled={!code}
+            className={classnames(
+              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            Compete Dashboard
+            
+          </button>
+          </Link>
+    
+    </div>
+     
+  </div>
+  <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
         <p>{hint}</p>
       </Popup>
-  </div>
-
 
   <div className="flex flex-row px-4 py-4 space-x-4">
     {/* Left Side: QuestionCustom */}
@@ -512,9 +537,9 @@ const Coding = () => {
         {activeComponent === 'outputDetails' && outputDetails && (
           <OutputDetails outputDetails={outputDetails} />
         )}
-        {activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-          <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
-        )}
+ {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
+        <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+      )}
       </div>
     </div>
   </div>
