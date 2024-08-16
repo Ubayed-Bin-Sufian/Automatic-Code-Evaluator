@@ -17,7 +17,7 @@ import QuestionCustom from "../../components/QuestionCustom";
 import React, { useEffect, useState } from "react";
 import ThemeDropdown from "../../components/ThemeDropdown";
 import useKeyPress from "../../hooks/useKeyPress";
-import Popup from "../../components/Popup";
+import Popup from "../../components/Popup/Popup";
 const Coding = () => {
   const { questionId } = useParams();
   const [activeComponent, setActiveComponent] = useState(null);
@@ -27,6 +27,7 @@ const Coding = () => {
   const [loading, setLoading] = useState(false);
   const [numTestCases, setNumTestCases] = useState('');
   const [outputDetails, setOutputDetails] = useState(null);
+  const [responseDetails, setResponseDetails] = useState(null);
   const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
@@ -42,7 +43,7 @@ const Coding = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowComponent(true);
-    }, 1000); // 1000 milliseconds = 1 second
+    }, 5000); // 1000 milliseconds = 1 second
 
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
   }, []);
@@ -283,7 +284,7 @@ const Coding = () => {
     try {
       let response = await axios.request(options);  // Make the API request
       let statusId = response.data.status?.id;  // Extract the status ID
-
+      setResponseDetails(response.data)
       // Check if the submission is still processing
       if (statusId === 1 || statusId === 2) {
         // Still processing, check again after 2 seconds
@@ -359,6 +360,7 @@ const Coding = () => {
     try {
       const response = await axios.request(options);
       console.log("res.data", response.data);
+      
       const token = response.data.token;
       await checkStatusCustomInput(token, providedOutput);
     } catch (err) {
@@ -538,7 +540,7 @@ const Coding = () => {
           <OutputDetails outputDetails={outputDetails} />
         )}
  {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-        <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+        <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest} solutionDetails={responseDetails} questionId={questionId}/>
       )}
       </div>
     </div>
