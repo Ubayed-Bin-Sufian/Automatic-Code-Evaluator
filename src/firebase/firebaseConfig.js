@@ -10,8 +10,8 @@ const firebaseConfig = {
   authDomain: "codeevaluator.firebaseapp.com",
   projectId: "codeevaluator",
   storageBucket: "codeevaluator.appspot.com",
-  messagingSenderId: "252590889208",
-  appId: "1:252590889208:web:415907f7d1a8f6a47cc30d"
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
 };
 
 // Initialize Firebase

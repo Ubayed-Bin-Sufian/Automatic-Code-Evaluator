@@ -199,13 +199,13 @@ const Coding = () => {
     };
     const options = {
       method: "POST",
-      url: "https://judge0-extra-ce.p.rapidapi.com/submissions",
+      url: process.env.REACT_APP_RAPID_API_URL,      
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a0edca89aamshec6069b621d8350p1366f6jsn0878d6518676",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
       },
       data: formData,
     };
@@ -236,11 +236,11 @@ const Coding = () => {
   const checkStatus = async (token) => {
     const options = {
       method: "GET",
-      url: `https://judge0-extra-ce.p.rapidapi.com/submissions/${token}`,
+      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a0edca89aamshec6069b621d8350p1366f6jsn0878d6518676",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
       },
     };
     try {
@@ -273,11 +273,11 @@ const Coding = () => {
   const checkStatusCustomInput = async (token, expectedoutput) => {
     const options = {
       method: "GET",
-      url: `https://judge0-extra-ce.p.rapidapi.com/submissions/${token}`,
+      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a0edca89aamshec6069b621d8350p1366f6jsn0878d6518676",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
       },
     };
 
@@ -346,13 +346,13 @@ const Coding = () => {
 
     const options = {
       method: "POST",
-      url: "https://judge0-extra-ce.p.rapidapi.com/submissions",
+      url: process.env.REACT_APP_RAPID_API_URL,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a0edca89aamshec6069b621d8350p1366f6jsn0878d6518676",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
       },
       data: formData,
     };
