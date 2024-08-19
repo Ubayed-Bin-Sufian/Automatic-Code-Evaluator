@@ -13,7 +13,7 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [documentId, setDocumentId] = useState(null);
-  const [selectedLanguageIndex, setSelectedLanguageIndex] = useState('');
+  const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(37);
   
   const handleGenerateTestCases = () => {
     const numCases = parseInt(numTestCases, 10);
