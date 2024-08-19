@@ -5,7 +5,7 @@ import { defineTheme } from "../../lib/defineTheme";
 import { doc, getDoc } from 'firebase/firestore';
 import { languageOptions } from "../../constants/languageOptions";
 import { ToastContainer, toast } from "react-toastify";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import CustomInput from "../../components/CustomInput";
@@ -17,8 +17,7 @@ import QuestionCustom from "../../components/QuestionCustom";
 import React, { useEffect, useState } from "react";
 import ThemeDropdown from "../../components/ThemeDropdown";
 import useKeyPress from "../../hooks/useKeyPress";
-import Popup from "../../components/Popup";
-
+import Popup from "../../components/Popup/Popup";
 const Coding = () => {
   const { questionId } = useParams();
   const [activeComponent, setActiveComponent] = useState(null);
@@ -28,6 +27,7 @@ const Coding = () => {
   const [loading, setLoading] = useState(false);
   const [numTestCases, setNumTestCases] = useState('');
   const [outputDetails, setOutputDetails] = useState(null);
+  const [responseDetails, setResponseDetails] = useState(null);
   const [outputDetailsTestCases, setOutputDetailsTestCases] = useState(null);  // For Test Cases
   const [processing, setProcessing] = useState(null);
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
@@ -35,14 +35,23 @@ const Coding = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [testCases, setTestCases] = useState([]);
   const [theme, setTheme] = useState("cobalt");
-  const [answertest,setAnswerTest] = useState()
+  const[answertest,setAnswerTest]=useState()
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hint, setHint] = useState("");
+  const [showComponent, setShowComponent] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowComponent(true);
+    }, 5000); // 1000 milliseconds = 1 second
 
+    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+  }, []);
   const handlePopup = async () => {
     setIsPopupOpen(true);
     setIsLoading(true);
+   
+
 
     try {
       const response = await fetchHintFromChatGPT(code);
@@ -53,7 +62,6 @@ const Coding = () => {
       setIsLoading(false);
     }
   };
-
   const fetchHintFromChatGPT = async (code) => {
     const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
     const apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -62,7 +70,7 @@ const Coding = () => {
       const response = await axios.post(
         apiUrl,
         {
-          model: "gpt-4",
+          model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
@@ -70,7 +78,7 @@ const Coding = () => {
             },
             {
               role: "user",
-              content: `Provide a hint for the following code:\n\n${code} for following question :\n\n${question} and don't evaluate the following function for the hint process_input_and_call_function , hint should not be more than 3 lines`,
+              content: `Provide a hint for the following code:\n\n${code} for following question :\n\n${question} and don't evaluate the following function for the hint process_input_and_call_function , HINT should not be more than 3 lines`,
             },
           ],
           max_tokens: 100,
@@ -95,7 +103,6 @@ const Coding = () => {
     setIsPopupOpen(false);
     setHint("");
   };
-
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
@@ -277,27 +284,27 @@ const Coding = () => {
     try {
       let response = await axios.request(options);  // Make the API request
       let statusId = response.data.status?.id;  // Extract the status ID
-
+      setResponseDetails(response.data)
       // Check if the submission is still processing
       if (statusId === 1 || statusId === 2) {
         // Still processing, check again after 2 seconds
         setTimeout(() => {
-          checkStatusCustomInput(token, expectedoutput);
+          checkStatusCustomInput(token,expectedoutput);
         }, 2000);
         return;
       } else {
         setProcessingTestCases(false);
 
         let decodedOutput = atob(response.data.stdout).replace(/\s+/g, '');
-        console.log("before checking", expectedoutput)
-        let cleanedExpectedOutput = (expectedoutput || "")
+        console.log("before checking",expectedoutput)
+        let cleanedExpectedOutput = (expectedoutput ||"")
     
         if (decodedOutput == cleanedExpectedOutput) {
             console.log('I am in');
             console.log('correctanswer');
             testCaseJsonResult.correctanswer++;
             setAnswerTest(testCaseJsonResult.correctanswer)
-            console.log("testCaseJsonResult", testCaseJsonResult)
+            console.log("testCaseJsonResult",testCaseJsonResult)
         } else {
             console.log('Outputs do not match');
             console.log('Expected:', cleanedExpectedOutput);
@@ -353,6 +360,7 @@ const Coding = () => {
     try {
       const response = await axios.request(options);
       console.log("res.data", response.data);
+      
       const token = response.data.token;
       await checkStatusCustomInput(token, providedOutput);
     } catch (err) {
@@ -422,101 +430,123 @@ const Coding = () => {
   };
 
   return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+<>
+  <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+  />
+  
+  <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+  <div className="flex flex-row justify-between">
+    <div className="flex flex-row">
+      <div className="px-4 py-2">
+      {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
+      </div>
+      <div className="px-4 py-2">
+        <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
+      </div>
       
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
-
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row">
-          <div className="px-4 py-2">
-            {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
-          </div>
-          <div className="px-4 py-2">
-            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-          </div>          
-        </div>
-        <button
-          onClick={handlePopup}
-          disabled={!code}
-          className={classnames(
-            "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-            !code ? "opacity-50" : ""
-          )}
-        >
-          Hint AI
-        </button>
-        <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading}>
-          <p>{hint}</p>
-        </Popup>
-      </div>
-
-      <div className="flex flex-row px-4 py-4 space-x-4">
-        {/* Left Side: QuestionCustom */}
-        <div className="w-1/2">
-          <QuestionCustom question={question} />
-        </div>
-
-        {/* Right Side: CodeEditorWindow and OutputWindow */}
-        <div className="w-1/2 flex flex-col space-y-4 mt-9">
-          {language && (
-            <CodeEditorWindow
-              code={code}
-              onChange={onChange}
-              language={language?.value}
-              theme={theme.value}
-            />
-          )}
-
-          <div className="right-container flex flex-col">
-            <div className="flex flex-row space-x-3 justify-end">
-              <button
-                onClick={handleCompile}
-                disabled={!code}
-                className={classnames(
-                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                  !code ? "opacity-50" : ""
-                )}
-              >
-                {processing ? "Processing..." : "Run"}
-              </button>
-
-              {/* Button for comparing Test Cases with output */}
-              <button
-                onClick={handleCompileTestCases}
-                disabled={!code}
-                className={classnames(
-                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                  !code ? "opacity-50" : ""
-                )}
-              >
-                {processingTestCases ? "Processing..." : "Submit"}
-              </button>
-            </div>
-            <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
-            <OutputWindow outputDetails={outputDetails} />
+    </div>
+    <div>
+    <button
+            onClick={handlePopup}
+            disabled={!code}
+            className={classnames(
+              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            Hint AI
+          </button>
+          <Link to="/compete">
+          <button
+            onClick={handlePopup}
+            disabled={!code}
+            className={classnames(
+              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
+            )}
+          >
+            Compete Dashboard
             
-            {/* Conditional rendering of output details */}
-            {activeComponent === 'outputDetails' && outputDetails && (
-              <OutputDetails outputDetails={outputDetails} />
+          </button>
+          </Link>
+    
+    </div>
+     
+  </div>
+  <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
+        <p>{hint}</p>
+      </Popup>
+
+  <div className="flex flex-row px-4 py-4 space-x-4">
+    {/* Left Side: QuestionCustom */}
+    <div className="w-1/2">
+      <QuestionCustom question={question} />
+    </div>
+
+    {/* Right Side: CodeEditorWindow and OutputWindow */}
+    <div className="w-1/2 flex flex-col space-y-4 mt-9">
+      {language && (
+        <CodeEditorWindow
+          code={code}
+          onChange={onChange}
+          language={language?.value}
+          theme={theme.value}
+        />
+      )}
+
+      <div className="right-container flex flex-col">
+      <div className="flex flex-row space-x-3 justify-end">
+          <button
+            onClick={handleCompile}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
             )}
-            {activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-              <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+          >
+            {processing ? "Processing..." : "Run"}
+          </button>
+
+          {/* Button for comparing Test Cases with output */}
+          <button
+            onClick={handleCompileTestCases}
+            disabled={!code}
+            className={classnames(
+              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+              !code ? "opacity-50" : ""
             )}
-          </div>
+          >
+            {processingTestCases ? "Processing..." : "Submit"}
+          </button>
         </div>
+        <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
+        <OutputWindow outputDetails={outputDetails} /> 
+
+        
+
+
+        
+        {/* Conditional rendering of output details */}
+        {activeComponent === 'outputDetails' && outputDetails && (
+          <OutputDetails outputDetails={outputDetails} />
+        )}
+ {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
+        <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest} solutionDetails={responseDetails} questionId={questionId}/>
+      )}
       </div>
-    </>
+    </div>
+  </div>
+</>
+
   );
 };
 

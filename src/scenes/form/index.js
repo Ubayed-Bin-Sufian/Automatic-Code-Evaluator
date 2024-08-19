@@ -38,7 +38,7 @@ const Form = () => {
 
       // Get the current count of documents
       const currentCount = codingQuestionsSnapshot.size;
-
+      console.log(currentCount)
       // Set the new document ID by incrementing the current count
       const newDocumentId = (currentCount + 1).toString();
       setDocumentId(newDocumentId);
