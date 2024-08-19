@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import contestsData from '../../data/codingChallenge.json';
-import codingGif from '../../components/images/Coding.gif'; // Update this path to your GIF
 import { Link } from 'react-router-dom';
+import codingGif from '../../components/images/Coding.gif'; // Update this path to your GIF
+import contestsData from '../../data/codingChallenge.json';
 
 const Contest = () => {
   const [contests, setContests] = useState([]);
@@ -10,7 +10,7 @@ const Contest = () => {
   useEffect(() => {
     setContests(contestsData);
     // Simulate loading time for the GIF
-    setTimeout(() => setIsLoading(false), 2000);
+    setTimeout(() => setIsLoading(false), 500);
   }, []);
 
   const formatDate = (dateString) => {
