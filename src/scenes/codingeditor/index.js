@@ -17,11 +17,11 @@ import LanguagesDropdownCustom from "../../components/LanguagesDropdownCustom";
 import OutputDetails from "../../components/OutputDetails";
 import OutputDetailsTestCases from "../../components/OutputDetailsTestCases";
 import OutputWindow from "../../components/OutputWindow";
-import Popup from "../../components/Popup";
+import Popup from "../../components/Popup/Popup";
 import QuestionCustom from "../../components/QuestionCustom";
 import ThemeDropdown from "../../components/ThemeDropdown";
 import useKeyPress from "../../hooks/useKeyPress";
-import Popup from "../../components/Popup/Popup";
+
 const Coding = () => {
   const { questionId } = useParams();
   const [activeComponent, setActiveComponent] = useState(null);
