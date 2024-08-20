@@ -25,7 +25,7 @@ return(
         <Route path="/admin" element={<Form />} />
         <Route path="/question/:questionId" element={<Coding />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/leaderboard/:questionId" element={<Leaderboard />} />
       </Routes>
     </UserProvider>
   );  

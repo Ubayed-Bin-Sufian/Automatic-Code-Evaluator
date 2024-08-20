@@ -25,9 +25,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
-            <Link to="/">
-              <img src={logo} alt="Logo" className="h-10 w-auto" />
-            </Link>
+          <Link to="/" className="flex items-center">
+  <img src={logo} alt="Logo" className="h-10 w-auto" />
+  <h1 className="text-gray-700 text-3xl font-medium ml-2">
+    SuperCoder
+  </h1>
+</Link>
+
           </div>
           <div className="flex items-center space-x-6">
             {/* <Link to="/compete" className="text-gray-700 hover:text-blue-500 text-lg font-medium">
