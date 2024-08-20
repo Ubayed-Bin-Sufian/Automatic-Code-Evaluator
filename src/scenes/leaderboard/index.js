@@ -20,7 +20,7 @@ const Leaderboard = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-4xl mx-auto mt-25">
       <h2 className="text-2xl font-bold mb-4 text-center">Leaderboard</h2>
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
@@ -34,7 +34,7 @@ const Leaderboard = () => {
           {data.map((item) => (
             <tr key={item.name} className="hover:bg-gray-100">
               <td className="py-2 px-4 border-b text-center">{item.rank}</td>
-              <td className="py-2 px-4 border-b">{item.name}</td>
+              <td className="py-2 px-4 border-b text-center">{item.name}</td>
               <td className="py-2 px-4 border-b text-center">{item.time.toFixed(2)}</td>
             </tr>
           ))}
