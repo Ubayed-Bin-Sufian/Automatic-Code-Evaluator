@@ -1,20 +1,23 @@
+// Library Imports
+import { Routes, Route, useLocation } from "react-router-dom";
+
+// Custom Imports
 import "./App.css";
-import Landing from "./components/Landing";
+import Coding from "./scenes/codingeditor";
+import Contest from "./scenes/contest/Contest";
 import Form from "./scenes/form";
 import LandingDashboard from "./scenes/landingdashboard";
-import Coding from "./scenes/codingeditor";
-import { Routes, Route,useLocation } from "react-router-dom";
-import Login from "./scenes/login";
-import Contest from "./scenes/contest/Contest";
-import { UserProvider } from "./lib/context";
-import Navbar from "./components/Navbar";
 import Leaderboard from "./scenes/leaderboard";
+import Login from "./scenes/login";
+import Navbar from "./components/Navbar";
+import { UserProvider } from "./lib/context";
+
 function App() {
-   const location = useLocation();
+  const location = useLocation();
   const isQuestionRoute = location.pathname.startsWith('/question/');
 
 return(
-<UserProvider>
+    <UserProvider>
       {!isQuestionRoute && <Navbar />} {/* Render Navbar only if not on question route */}
       <Routes>
         <Route path="/" element={<LandingDashboard />} />
@@ -25,8 +28,7 @@ return(
         <Route path="/leaderboard/:questionId" element={<Leaderboard />} />
       </Routes>
     </UserProvider>
-);
-  
+  );  
 }
 
 export default App;

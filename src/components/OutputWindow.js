@@ -33,6 +33,7 @@ const OutputWindow = ({ outputDetails }) => {
       );
     }
   };
+  
   return (
     <>
       <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2 mt-2">

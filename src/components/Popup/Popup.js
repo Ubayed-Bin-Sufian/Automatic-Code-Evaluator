@@ -1,6 +1,6 @@
 import React from "react";
 
-const Popup = ({ isOpen, onClose, isLoading, children,heading }) => {
+const Popup = ({ children, heading, isLoading, isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
