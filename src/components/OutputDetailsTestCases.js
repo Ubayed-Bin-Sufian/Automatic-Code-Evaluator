@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "./Popup"; // Assuming Popup is in the same directory
 
-const OutputDetailsTestCases = ({ outputDetailsTestCases, correctanswer }) => {
+const OutputDetailsTestCases = ({ correctanswer, outputDetailsTestCases }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 

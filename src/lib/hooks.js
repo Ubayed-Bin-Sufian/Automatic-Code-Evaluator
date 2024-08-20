@@ -1,11 +1,11 @@
-import { auth, firestore, doc, onSnapshot } from './firebase';
-import { useEffect, useState } from 'react';
+import { auth, doc, firestore, onSnapshot } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useEffect, useState } from 'react';
 
 export function useUserData() {
+  const [loading, setLoading] = useState(true);
   const [user, authLoading] = useAuthState(auth);
   const [username, setUsername] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let unsubscribe;
@@ -24,5 +24,5 @@ export function useUserData() {
     return () => unsubscribe && unsubscribe();
   }, [user, authLoading]);
 
-  return { user, username, loading };
+  return { loading, user, username };
 }

@@ -1,28 +1,36 @@
+// Library Imports
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link, useParams } from 'react-router-dom';
+import axios from "axios";
+import { doc, getDoc } from 'firebase/firestore';
+
+// Custom Imports
 import { classnames } from "../../utils/general";
 import { db } from '../../firebase/firebaseConfig';
 import { defineTheme } from "../../lib/defineTheme";
-import { doc, getDoc } from 'firebase/firestore';
 import { languageOptions } from "../../constants/languageOptions";
-import { ToastContainer, toast } from "react-toastify";
-import { Link, useParams } from 'react-router-dom';
-import axios from "axios";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import CustomInput from "../../components/CustomInput";
 import LanguagesDropdownCustom from "../../components/LanguagesDropdownCustom";
 import OutputDetails from "../../components/OutputDetails";
 import OutputDetailsTestCases from "../../components/OutputDetailsTestCases";
 import OutputWindow from "../../components/OutputWindow";
+import Popup from "../../components/Popup";
 import QuestionCustom from "../../components/QuestionCustom";
-import React, { useEffect, useState } from "react";
 import ThemeDropdown from "../../components/ThemeDropdown";
 import useKeyPress from "../../hooks/useKeyPress";
-import Popup from "../../components/Popup";
+
 const Coding = () => {
   const { questionId } = useParams();
   const [activeComponent, setActiveComponent] = useState(null);
+  const [answertest,setAnswerTest]=useState()
   const [code, setCode] = useState("");
   const [customInput, setCustomInput] = useState("");
+  const [hint, setHint] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [language, setLanguage] = useState("");
   const [loading, setLoading] = useState(false);
   const [numTestCases, setNumTestCases] = useState('');
@@ -32,13 +40,10 @@ const Coding = () => {
   const [processingTestCases, setProcessingTestCases] = useState(null)  // For Test Cases
   const [question, setQuestion] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [showComponent, setShowComponent] = useState(false);
   const [testCases, setTestCases] = useState([]);
   const [theme, setTheme] = useState("cobalt");
-  const[answertest,setAnswerTest]=useState()
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hint, setHint] = useState("");
-  const [showComponent, setShowComponent] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowComponent(true);
@@ -46,11 +51,10 @@ const Coding = () => {
 
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
   }, []);
+
   const handlePopup = async () => {
     setIsPopupOpen(true);
     setIsLoading(true);
-   
-
 
     try {
       const response = await fetchHintFromChatGPT(code);
@@ -61,6 +65,7 @@ const Coding = () => {
       setIsLoading(false);
     }
   };
+
   const fetchHintFromChatGPT = async (code) => {
     const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
     const apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -102,6 +107,7 @@ const Coding = () => {
     setIsPopupOpen(false);
     setHint("");
   };
+
   const onSelectChange = (sl) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
@@ -148,8 +154,8 @@ const Coding = () => {
   };
   
   let testCaseJsonResult={
-    correctanswer:0,
-    totaltestcases:0,
+    correctanswer: 0,
+    totaltestcases: 0,
   }
   
   useEffect(() => {
@@ -232,6 +238,7 @@ const Coding = () => {
         console.log("catch block...", error);
       });
   };
+
   const checkStatus = async (token) => {
     const options = {
       method: "GET",
@@ -428,32 +435,32 @@ const Coding = () => {
   };
 
   return (
-<>
-  <ToastContainer
-    position="top-right"
-    autoClose={2000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-  />
-  
-  <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
-  <div className="flex flex-row justify-between">
-    <div className="flex flex-row">
-      <div className="px-4 py-2">
-      {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
-      </div>
-      <div className="px-4 py-2">
-        <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-      </div>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       
-    </div>
-    <div>
-    <button
+      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row">
+          <div className="px-4 py-2">
+          {language && <LanguagesDropdownCustom onSelectChange={onSelectChange} defaultValue={language} />}
+          </div>
+          <div className="px-4 py-2">
+            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
+          </div>        
+        </div>
+        <div>
+          <button
             onClick={handlePopup}
             disabled={!code}
             className={classnames(
@@ -464,87 +471,79 @@ const Coding = () => {
             Hint AI
           </button>
           <Link to="/compete">
-          <button
-            onClick={handlePopup}
-            disabled={!code}
-            className={classnames(
-              "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-              !code ? "opacity-50" : ""
-            )}
-          >
-            Compete Dashboard
-            
-          </button>
-          </Link>
-    
-    </div>
-     
-  </div>
-  <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
+            <button
+              onClick={handlePopup}
+              disabled={!code}
+              className={classnames(
+                "mr-5 mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                !code ? "opacity-50" : ""
+              )}
+            >
+              Compete Dashboard            
+            </button>
+          </Link>        
+        </div>        
+      </div>
+      <Popup isOpen={isPopupOpen} onClose={closePopup} isLoading={isLoading} heading={"Hint AI"}>
         <p>{hint}</p>
       </Popup>
 
-  <div className="flex flex-row px-4 py-4 space-x-4">
-    {/* Left Side: QuestionCustom */}
-    <div className="w-1/2">
-      <QuestionCustom question={question} />
-    </div>
-
-    {/* Right Side: CodeEditorWindow and OutputWindow */}
-    <div className="w-1/2 flex flex-col space-y-4 mt-9">
-      {language && (
-        <CodeEditorWindow
-          code={code}
-          onChange={onChange}
-          language={language?.value}
-          theme={theme.value}
-        />
-      )}
-
-      <div className="right-container flex flex-col">
-      <div className="flex flex-row space-x-3 justify-end">
-          <button
-            onClick={handleCompile}
-            disabled={!code}
-            className={classnames(
-              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-              !code ? "opacity-50" : ""
-            )}
-          >
-            {processing ? "Processing..." : "Run"}
-          </button>
-
-          {/* Button for comparing Test Cases with output */}
-          <button
-            onClick={handleCompileTestCases}
-            disabled={!code}
-            className={classnames(
-              "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-              !code ? "opacity-50" : ""
-            )}
-          >
-            {processingTestCases ? "Processing..." : "Submit"}
-          </button>
+      <div className="flex flex-row px-4 py-4 space-x-4">
+        {/* Left Side: QuestionCustom */}
+        <div className="w-1/2">
+          <QuestionCustom question={question} />
         </div>
-        <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
-        <OutputWindow outputDetails={outputDetails} /> 
 
-        
+        {/* Right Side: CodeEditorWindow and OutputWindow */}
+        <div className="w-1/2 flex flex-col space-y-4 mt-9">
+          {language && (
+            <CodeEditorWindow
+              code={code}
+              onChange={onChange}
+              language={language?.value}
+              theme={theme.value}
+            />
+          )}
 
+          <div className="right-container flex flex-col">
+            <div className="flex flex-row space-x-3 justify-end">
+              <button
+                onClick={handleCompile}
+                disabled={!code}
+                className={classnames(
+                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                  !code ? "opacity-50" : ""
+                )}
+              >
+                {processing ? "Processing..." : "Run"}
+              </button>
 
-        
-        {/* Conditional rendering of output details */}
-        {activeComponent === 'outputDetails' && outputDetails && (
-          <OutputDetails outputDetails={outputDetails} />
-        )}
- {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-        <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
-      )}
+              {/* Button for comparing Test Cases with output */}
+              <button
+                onClick={handleCompileTestCases}
+                disabled={!code}
+                className={classnames(
+                  "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                  !code ? "opacity-50" : ""
+                )}
+              >
+                {processingTestCases ? "Processing..." : "Submit"}
+              </button>
+            </div>
+            <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
+            <OutputWindow outputDetails={outputDetails} />
+            
+            {/* Conditional rendering of output details */}
+            {activeComponent === 'outputDetails' && outputDetails && (
+              <OutputDetails outputDetails={outputDetails} />
+            )}
+            {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
+              <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest}/>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</>
-
+    </>
   );
 };
 

@@ -1,19 +1,22 @@
+// Library Imports
 import React, { useState } from 'react';
-import { Box, Button, CircularProgress, TextField, Typography, Link, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Box, Button, CircularProgress, FormControl, InputLabel, Link, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
+
+// Custom Imports
 import { db } from '../../firebase/firebaseConfig';
 import { languageOptions } from '../../constants/languageOptions'; // Adjust the import path as needed
 
 const Form = () => {
-  const [question, setQuestion] = useState('');
   const [code, setCode] = useState('');
-  const [numTestCases, setNumTestCases] = useState('');
-  const [testCases, setTestCases] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [documentId, setDocumentId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [numTestCases, setNumTestCases] = useState('');
+  const [question, setQuestion] = useState('');
   const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(37);
+  const [submitted, setSubmitted] = useState(false);
+  const [testCases, setTestCases] = useState([]);
   
   const handleGenerateTestCases = () => {
     const numCases = parseInt(numTestCases, 10);

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { FaGoogle } from "react-icons/fa";
-import Navbar from "../../components/Navbar";
-import { UserContext } from '../../lib/context';
-import { signIn } from '../../lib/auth';
 import { useNavigate } from 'react-router-dom';
+import { signIn } from '../../lib/auth';
+import { UserContext } from '../../lib/context';
 
 const Login = () => {
   const { user } = useContext(UserContext);
@@ -19,14 +18,13 @@ const Login = () => {
   const handleClick = async () => {
     if (!user) {
       await signIn();
-      console.log("comming form handle")
+      console.log("coming from handle")
       navigate('/compete'); // Redirect to /compete after successful login
     }
   };
 
   return (
-    <>
-      
+    <>      
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white p-16 rounded-2xl shadow-2xl text-center w-full max-w-3xl">
           <h2 className="text-4xl font-extrabold text-gray-700 mb-10">
