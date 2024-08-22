@@ -319,14 +319,25 @@ const Coding = () => {
           checkStatus(token);
         }, 2000);
         return;
-      } else {
+      }
+
+      setProcessing(false);
+      setOutputDetails(response.data);
+      setActiveComponent('outputDetails');
+      showSuccessToast(`Compiled Successfully!`);
+      console.log("response.data", response.data);
+
+      // Check for runtime error
+      if (statusId === 11) {
+        setTimeout(() => {
+          handlePopupWrongCode(response.data);
+        }, 2000); // 2000 milliseconds = 2 second        
         setProcessing(false);
-        setOutputDetails(response.data);
-        setActiveComponent('outputDetails');
-        showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
         return;
       }
+
+      return;   
+      
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
