@@ -29,8 +29,10 @@ const Coding = () => {
   const [code, setCode] = useState("");
   const [customInput, setCustomInput] = useState("");
   const [hint, setHint] = useState("");
+  const [hintWrongCode, setHintWrongCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isWrongCodePopupOpen, setWrongCodePopupOpen] = useState(false);
   const [language, setLanguage] = useState("");
   const [loading, setLoading] = useState(false);
   const [numTestCases, setNumTestCases] = useState('');
@@ -107,6 +109,62 @@ const Coding = () => {
   const closePopup = () => {
     setIsPopupOpen(false);
     setHint("");
+  };
+
+  // Hint for Wrong Code
+  const handlePopupWrongCode = async () => {
+    setWrongCodePopupOpen(true);
+    setIsLoading(true);
+
+    try {
+      const response = await fetchHintWrongCode(code);
+      setHintWrongCode(response);
+    } catch (error) {
+      setHintWrongCode("Failed to fetch hint. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchHintWrongCode = async (code) => {
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY; // Replace with your actual API key
+    const apiUrl = "https://api.openai.com/v1/chat/completions";
+  
+    try {
+      const response = await axios.post(
+        apiUrl,
+        {
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "system",
+              content: "You are a highly skilled coding assistant. Your task is to provide clear, concise, and actionable hints for correcting mistakes in code. Keep the hints brief and focused on guiding the user towards the solution.",
+            },
+            {
+              role: "user",
+              content: `Here is a piece of code that contains errors:\n\n${code}\n\nThis code is intended to solve the following problem:\n\n${question}.\n\nPlease provide a hint in 2-3 sentences that helps identify the mistake and suggests a way to correct it.`,
+            },
+          ],
+          max_tokens: 100,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+        }
+      );
+  
+      const hint = response.data.choices[0].message.content.trim();
+      return hint;
+    } catch (error) {
+      console.error("Error fetching hint from ChatGPT:", error);
+      throw error;
+    }
+  };
+
+  const closeWrongCodePopup = () => {
+    setWrongCodePopupOpen(false);
   };
 
   const onSelectChange = (sl) => {
@@ -261,14 +319,25 @@ const Coding = () => {
           checkStatus(token);
         }, 2000);
         return;
-      } else {
+      }
+
+      setProcessing(false);
+      setOutputDetails(response.data);
+      setActiveComponent('outputDetails');
+      showSuccessToast(`Compiled Successfully!`);
+      console.log("response.data", response.data);
+
+      // Check for runtime error
+      if (statusId === 11) {
+        setTimeout(() => {
+          handlePopupWrongCode(response.data);
+        }, 2000); // 2000 milliseconds = 2 second        
         setProcessing(false);
-        setOutputDetails(response.data);
-        setActiveComponent('outputDetails');
-        showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
         return;
       }
+
+      return;   
+      
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
@@ -509,6 +578,7 @@ const Coding = () => {
 
           <div className="right-container flex flex-col">
             <div className="flex flex-row space-x-3 justify-end">
+
               <button
                 onClick={handleCompile}
                 disabled={!code}
@@ -518,7 +588,10 @@ const Coding = () => {
                 )}
               >
                 {processing ? "Processing..." : "Run"}
-              </button>
+              </button>              
+              <Popup isOpen={isWrongCodePopupOpen} onClose={closeWrongCodePopup} isLoading={isLoading} heading={"Hint for Wrong Code"}>
+                <p>{hintWrongCode}</p>
+              </Popup>
 
               {/* Button for comparing Test Cases with output */}
               <button
@@ -540,7 +613,7 @@ const Coding = () => {
               <OutputDetails outputDetails={outputDetails} />
             )}
             {showComponent && activeComponent === 'outputTestCases' && outputDetailsTestCases && (
-              <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest} />
+              <OutputDetailsTestCases outputDetailsTestCases={outputDetailsTestCases} correctanswer={answertest} solutionDetails={responseDetails} questionId={questionId} />
             )}
           </div>
         </div>
