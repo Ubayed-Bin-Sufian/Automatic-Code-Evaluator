@@ -11,7 +11,8 @@ import Leaderboard from "./scenes/leaderboard";
 import Login from "./scenes/login";
 import Navbar from "./components/Navbar";
 import { UserProvider } from "./lib/context";
-
+import EditForm from "./scenes/editform";
+import CodingRoute from "./scenes/codingroute";
 function App() {
   const location = useLocation();
   const isQuestionRoute = location.pathname.startsWith('/question/');
@@ -25,6 +26,8 @@ return(
         <Route path="/admin" element={<Form />} />
         <Route path="/question/:questionId" element={<Coding />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/question/edit/:subject/:codingQuestion" element={<EditForm />}/>
+        <Route path="/question/:subject/:codingQuestion" element={<CodingRoute />}/>
         <Route path="/leaderboard/:questionId" element={<Leaderboard />} />
       </Routes>
     </UserProvider>
