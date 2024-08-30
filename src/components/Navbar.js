@@ -37,9 +37,9 @@ const Navbar = () => {
             {/* <Link to="/compete" className="text-gray-700 hover:text-blue-500 text-lg font-medium">
               Practice
             </Link> */}
-            <Link to="/compete" className="text-gray-700 hover:text-blue-500 text-lg font-medium">
+            {/* <Link to="/compete" className="text-gray-700 hover:text-blue-500 text-lg font-medium">
               Compete
-            </Link>
+            </Link> */}
             {/* Conditionally render the login button */}
             {!user && (
               <Link to="/login" className="text-blue-500 hover:bg-blue-50 border-2 border-blue-300 rounded-lg px-4 py-2 text-lg font-medium transition duration-300">
