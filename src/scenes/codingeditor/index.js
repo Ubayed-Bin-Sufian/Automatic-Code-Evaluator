@@ -44,6 +44,7 @@ const Coding = () => {
   const [question, setQuestion] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [showComponent, setShowComponent] = useState(false);
+  const [showEvaluateButton, setShowEvaluateButton] = useState(false);
   const [testCases, setTestCases] = useState([]);
   const [theme, setTheme] = useState("cobalt");
 
@@ -319,31 +320,20 @@ const Coding = () => {
           checkStatus(token);
         }, 2000);
         return;
-      }
-
-      setProcessing(false);
-      setOutputDetails(response.data);
-      setActiveComponent('outputDetails');
-      showSuccessToast(`Compiled Successfully!`);
-      console.log("response.data", response.data);
-
-      // Check for runtime error
-      if (statusId === 11) {
-        setTimeout(() => {
-          handlePopupWrongCode(response.data);
-        }, 2000); // 2000 milliseconds = 2 second        
+        } else {
+          setProcessing(false);
+          setOutputDetails(response.data);
+          setActiveComponent('outputDetails');
+          showSuccessToast(`Compiled Successfully!`);
+          console.log("response.data", response.data);
+          return;
+        }        
+      } catch (err) {
+        console.log("err", err);
         setProcessing(false);
-        return;
+        showErrorToast();
       }
-
-      return;   
-      
-    } catch (err) {
-      console.log("err", err);
-      setProcessing(false);
-      showErrorToast();
-    }
-  };
+    };
 
   // Function to compare the output with an expected output
   const checkStatusCustomInput = async (token, expectedoutput) => {
@@ -478,6 +468,7 @@ const Coding = () => {
       setProcessingTestCases(false);
       setOutputDetailsTestCases(testCaseJsonResult);
       setActiveComponent('outputTestCases');
+      setShowEvaluateButton(true);
     }
   };
 
@@ -578,6 +569,22 @@ const Coding = () => {
 
           <div className="right-container flex flex-col">
             <div className="flex flex-row space-x-3 justify-end">
+              {/* Button for hints for wrong code */}
+              {showEvaluateButton && (
+                <button
+                  onClick={handlePopupWrongCode}
+                  disabled={!code}
+                  className={classnames(
+                    "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                    !code ? "opacity-50" : ""
+                  )}
+                >
+                  Evaluate AI
+                </button>
+              )}              
+              <Popup isOpen={isWrongCodePopupOpen} onClose={closeWrongCodePopup} isLoading={isLoading} heading={"Hint for Wrong Code"}>
+                <p>{hintWrongCode}</p>
+              </Popup>
 
               <button
                 onClick={handleCompile}
@@ -588,10 +595,7 @@ const Coding = () => {
                 )}
               >
                 {processing ? "Processing..." : "Run"}
-              </button>              
-              <Popup isOpen={isWrongCodePopupOpen} onClose={closeWrongCodePopup} isLoading={isLoading} heading={"Hint for Wrong Code"}>
-                <p>{hintWrongCode}</p>
-              </Popup>
+              </button>
 
               {/* Button for comparing Test Cases with output */}
               <button
