@@ -24,7 +24,7 @@ const LandingDashboard = () => {
         <Dashboard />
         <div className="flex flex-col items-center p-8 ">
      
-      <h2 className="text-6xl font-bold text-gray-600 mb-8">Coding Challenge</h2>
+      <h2 className="text-6xl font-bold text-gray-600 mt-6 mb-8">Coding Challenge</h2>
       <div className="overflow-x-auto w-full max-w-7xl">
         <table className="w-full bg-white border-collapse shadow-lg rounded-lg overflow-hidden">
           <thead className="bg-blue-500 text-white">
